@@ -56,9 +56,7 @@ export default function App() {
     if (!quiet) setLoading(true);
     setError('');
     try {
-      let response;
-      try { response = await fetch('/api/articles', { cache: 'no-store' }); if (!response.ok) throw new Error('API locale indisponible'); }
-      catch { response = await fetch(`${DATA_URL}?refresh=${Date.now()}`, { cache: 'no-store' }); }
+      const response = await fetch(`${DATA_URL}?refresh=${Date.now()}`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`Réponse ${response.status}`);
       const payload = await response.json();
       if (!Array.isArray(payload.articles)) throw new Error('Format de données inattendu');
@@ -103,12 +101,12 @@ export default function App() {
     if (!secret.trim()) return;
     setTriggering(true); setTriggerMessage('Envoi de la demande…');
     try {
-      const beforeResponse = await fetch('/api/status').catch(() => null);
-      let before = updatedAt;
-      if (beforeResponse?.ok) before = (await beforeResponse.json()).updated_at;
-      let response;
-      try { response = await fetch('/api/trigger', { method: 'POST', headers: { Authorization: `Bearer ${secret.trim()}`, 'Content-Type': 'application/json' }, body: '{}' }); }
-      catch { throw new Error('Le serveur local doit être démarré pour lancer une nouvelle veille.'); }
+      const before = updatedAt;
+      const response = await fetch('https://veille-ia-trigger.themomo450.workers.dev/', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${secret.trim()}`, 'Content-Type': 'application/json' },
+        body: '{}'
+      });
       if (response.status === 401) throw new Error('Secret incorrect.');
       if (response.status !== 202) throw new Error(`Le lancement a échoué (${response.status}).`);
       setTriggerMessage('Veille lancée. Attente de la nouvelle génération…');
