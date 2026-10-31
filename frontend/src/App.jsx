@@ -20,18 +20,6 @@ const filters = [
   { id: 'Favoris', label: 'Favoris', icon: Star },
   { id: 'Lus', label: 'Déjà lus', icon: Eye }
 ];
-const QUIZ = Object.entries(questionBank.topics).flatMap(([topic, questions]) =>
-  questions.map((item, index) => ({
-    id: `${topic}-${index}`,
-    topic,
-    q: item.question,
-    a: item.answers,
-    correct: item.correctAnswer,
-    why: item.explanation,
-    difficulty: item.difficulty || 'intermediaire'
-  }))
-);
-
 function readStore(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } }
 function cleanText(value = '') { return String(value).replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim(); }
 function dateLabel(value) { if (!value) return 'Date non disponible'; const d = new Date(value); return Number.isNaN(d.getTime()) ? 'Date non disponible' : new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }).format(d); }
