@@ -149,7 +149,7 @@ export default function App() {
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
-  return <div className="app-shell" style={{ '--accent': accent }}>
+  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#f28c28' }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand"><div className="brand-mark"><Sparkles size={20}/></div><div><strong>Veille<span>IA</span></strong><small>Votre veille, au bon endroit</small></div><button className="icon-btn mobile-close" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="side-label">ESPACE DE TRAVAIL</div>
