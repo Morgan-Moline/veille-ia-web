@@ -40,6 +40,7 @@ export default function App() {
   const [triggerOpen, setTriggerOpen] = useState(false);
   const [secret, setSecret] = useState('');
   const [triggering, setTriggering] = useState(false);
+  const [watchInProgress, setWatchInProgress] = useState(false);
   const [triggerMessage, setTriggerMessage] = useState('');
   const [quizOpen, setQuizOpen] = useState(false);
   const [quizSetupOpen, setQuizSetupOpen] = useState(false);
@@ -98,10 +99,11 @@ export default function App() {
   };
 
   async function launchNewWatch() {
-    if (!secret.trim()) return;
-    setTriggering(true); setTriggerMessage('Envoi de la demande…');
+    if (!secret.trim() || triggering || watchInProgress) return;
+    setTriggering(true);
+    setTriggerMessage('Envoi de la demande…');
+    const before = updatedAt;
     try {
-      const before = updatedAt;
       const response = await fetch('https://veille-ia-trigger.themomo450.workers.dev/', {
         method: 'POST',
         headers: { Authorization: `Bearer ${secret.trim()}`, 'Content-Type': 'application/json' },
@@ -109,21 +111,41 @@ export default function App() {
       });
       if (response.status === 401) throw new Error('Secret incorrect.');
       if (response.status !== 202) throw new Error(`Le lancement a échoué (${response.status}).`);
-      setTriggerMessage('Veille lancée. Attente de la nouvelle génération…');
-      const deadline = Date.now() + 8 * 60 * 1000;
-      let changed = false;
-      while (Date.now() < deadline) {
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        try {
-          const check = await fetch(`${DATA_URL}?refresh=${Date.now()}`, { cache: 'no-store' });
-          const json = await check.json();
-          if (json.updated_at && new Date(json.updated_at) > new Date(before || 0)) { changed = true; break; }
-        } catch { /* les erreurs temporaires ne stoppent pas le polling */ }
-      }
-      if (changed) { await loadArticles(true); setTriggerMessage('Nouvelle veille récupérée !'); }
-      else setTriggerMessage('La veille n’est pas encore à jour après 8 minutes. Tu peux réessayer plus tard.');
-    } catch (e) { setTriggerMessage(e.message || 'Une erreur est survenue.'); }
-    finally { setTriggering(false); }
+
+      // Le Worker continue son travail côté serveur : on libère immédiatement l'interface.
+      setTriggerMessage('Veille lancée en arrière-plan. Tu peux continuer à utiliser le site.');
+      setTriggering(false);
+      setWatchInProgress(true);
+
+      // Le suivi est indépendant de l'interface : il ne bloque ni la navigation ni les filtres.
+      void (async () => {
+        const deadline = Date.now() + 8 * 60 * 1000;
+        let changed = false;
+        while (Date.now() < deadline) {
+          await new Promise(resolve => setTimeout(resolve, 10000));
+          try {
+            const check = await fetch(`${DATA_URL}?refresh=${Date.now()}`, { cache: 'no-store' });
+            if (!check.ok) continue;
+            const json = await check.json();
+            if (json.updated_at && new Date(json.updated_at) > new Date(before || 0)) {
+              changed = true;
+              break;
+            }
+          } catch { /* Le suivi réessaie au prochain passage. */ }
+        }
+        if (changed) {
+          await loadArticles(true);
+          setTriggerMessage('Nouvelle veille récupérée !');
+        } else {
+          setTriggerMessage('La génération continue peut-être côté serveur. Tu peux actualiser les articles plus tard.');
+        }
+        setWatchInProgress(false);
+      })();
+    } catch (e) {
+      setTriggerMessage(e.message || 'Une erreur est survenue.');
+    } finally {
+      setTriggering(false);
+    }
   }
 
   const nextQuiz = () => {
@@ -198,7 +220,7 @@ export default function App() {
       </div>
     </main>
 
-    {triggerOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget&&!triggering)setTriggerOpen(false);}}><div className="modal"><button className="modal-close" onClick={()=>!triggering&&setTriggerOpen(false)}><X size={18}/></button><div className="modal-icon"><CloudCog size={23}/></div><div className="eyebrow">AUTOMATISATION</div><h2>Lancer une nouvelle veille</h2><p>Déclenchez la collecte et la génération des résumés IA. Le site attendra automatiquement la publication des nouveaux articles.</p><label className="field-label" htmlFor="app-secret">Secret d’accès</label><input id="app-secret" className="modal-input" type="password" value={secret} onChange={e=>setSecret(e.target.value)} placeholder="APP_SECRET" autoFocus disabled={triggering}/>{triggerMessage&&<div className={`trigger-message ${triggerMessage.includes('récupérée')?'success':''}`}>{triggering&&<LoaderCircle size={15} className="spin"/>}{triggerMessage}</div>}<div className="modal-actions"><button className="secondary-btn" onClick={()=>setTriggerOpen(false)} disabled={triggering}>Fermer</button><button className="primary-btn" onClick={launchNewWatch} disabled={triggering||!secret.trim()}>{triggering?<LoaderCircle size={16} className="spin"/>:<CloudCog size={16}/>} {triggering?'En cours…':'Lancer la veille'}</button></div><small className="privacy-note">Le secret est transmis au service de déclenchement et n’est pas enregistré dans le navigateur.</small></div></div>}
+    {triggerOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget&&!triggering)setTriggerOpen(false);}}><div className="modal"><button className="modal-close" onClick={()=>!triggering&&setTriggerOpen(false)}><X size={18}/></button><div className="modal-icon"><CloudCog size={23}/></div><div className="eyebrow">AUTOMATISATION</div><h2>Lancer une nouvelle veille</h2><p>Déclenchez la collecte et la génération des résumés IA. Le site attendra automatiquement la publication des nouveaux articles.</p><label className="field-label" htmlFor="app-secret">Secret d’accès</label><input id="app-secret" className="modal-input" type="password" value={secret} onChange={e=>setSecret(e.target.value)} placeholder="APP_SECRET" autoFocus disabled={triggering}/>{triggerMessage&&<div className={`trigger-message ${triggerMessage.includes('récupérée')?'success':''}`}>{triggering&&<LoaderCircle size={15} className="spin"/>}{triggerMessage}</div>}<div className="modal-actions"><button className="secondary-btn" onClick={()=>setTriggerOpen(false)} disabled={triggering}>Fermer</button><button className="primary-btn" onClick={launchNewWatch} disabled={triggering||watchInProgress||!secret.trim()}>{triggering?<LoaderCircle size={16} className="spin"/>:<CloudCog size={16}/>} {triggering?'Envoi…':watchInProgress?'Veille en arrière-plan…':'Lancer la veille'}</button></div><small className="privacy-note">Le secret est transmis au service de déclenchement et n’est pas enregistré dans le navigateur.</small></div></div>}
 
     {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div><div className="quiz-bank-meta">500 questions disponibles · 10 thèmes</div>{quizSetupOpen?<><div className="quiz-bank-meta">500 questions disponibles · Choisis les thèmes à travailler. Une question sera tirée au sort dans chaque thème sélectionné.</div><h2>Sur quels thèmes veux-tu réviser ?</h2><div className="quiz-topic-picker"><div className="quiz-topic-picker-actions"><button type="button" onClick={()=>setQuizSelectedTopics(Object.keys(questionBank.topics))}>Tout sélectionner</button><button type="button" onClick={()=>setQuizSelectedTopics([])}>Tout désélectionner</button></div>{Object.entries(questionBank.topics).map(([topic,questions])=><label className="quiz-topic-option" key={topic}><input type="checkbox" checked={quizSelectedTopics.includes(topic)} onChange={e=>setQuizSelectedTopics(current=>e.target.checked?[...current,topic]:current.filter(item=>item!==topic))}/><span><strong>{topic}</strong><small>{questions.length} questions</small></span></label>)}</div><div className="modal-actions"><span className="score-label">{quizSelectedTopics.length} thème(s) sélectionné(s)</span><button className="primary-btn" disabled={!quizSelectedTopics.length} onClick={()=>startQuiz()}>Commencer <ArrowUpRight size={15}/></button></div></>:quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={openQuizSetup}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
   </div>;
