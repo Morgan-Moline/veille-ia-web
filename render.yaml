@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: veille-ia-web
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: DATA_URL
+        value: https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json
+      - key: TRIGGER_URL
+        value: https://veille-ia-trigger.themomo450.workers.dev/
