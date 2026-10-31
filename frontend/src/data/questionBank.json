@@ -1,0 +1,1182 @@
+{
+  "version": 1,
+  "source": "veille-ia-app",
+  "total_questions": 105,
+  "topics": {
+    "TVA": [
+      {
+        "question": "La TVA collectée correspond à…",
+        "answers": [
+          "La TVA facturée aux clients",
+          "La TVA payée aux fournisseurs",
+          "Le total des achats",
+          "Le résultat de l’entreprise"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La TVA collectée est facturée aux clients. Elle est généralement due à l’État selon le régime applicable."
+      },
+      {
+        "question": "Une TVA déductible sur achat est généralement…",
+        "answers": [
+          "Une charge définitive",
+          "Récupérable sous conditions",
+          "Un produit",
+          "Une dette envers le client"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La TVA sur les achats peut être déduite si les conditions légales sont respectées."
+      },
+      {
+        "question": "Quel compte enregistre généralement la TVA collectée ?",
+        "answers": [
+          "401",
+          "411",
+          "44571",
+          "512"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Le compte 44571 correspond à la TVA collectée."
+      },
+      {
+        "question": "Quel est le taux normal de TVA en France métropolitaine ?",
+        "answers": [
+          "5,5 %",
+          "10 %",
+          "20 %",
+          "2,1 %"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Le taux normal est de 20 %. Certains biens et services bénéficient de taux réduits ou particuliers."
+      },
+      {
+        "question": "Une vente de 100 € HT est soumise à 20 % de TVA. Quel est le montant TTC ?",
+        "answers": [
+          "100 €",
+          "120 €",
+          "20 €",
+          "80 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "TVA = 100 × 20 % = 20 €. TTC = 100 + 20 = 120 €."
+      },
+      {
+        "question": "Une facture d’achat s’élève à 240 € TTC avec une TVA à 20 %. Quel est le montant HT ?",
+        "answers": [
+          "200 €",
+          "192 €",
+          "220 €",
+          "240 €"
+        ],
+        "correctAnswer": 0,
+        "explanation": "HT = 240 / 1,20 = 200 €. La TVA représente 40 €."
+      },
+      {
+        "question": "Quel compte enregistre généralement la TVA déductible sur autres biens et services ?",
+        "answers": [
+          "44562",
+          "44566",
+          "44571",
+          "401"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le compte 44566 est généralement utilisé pour la TVA déductible sur autres biens et services."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour la TVA déductible sur immobilisations ?",
+        "answers": [
+          "44562",
+          "44566",
+          "44551",
+          "707"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 44562 correspond à la TVA déductible sur immobilisations."
+      },
+      {
+        "question": "Une entreprise collecte 500 € de TVA et dispose de 300 € de TVA déductible. Hors autres éléments, elle doit…",
+        "answers": [
+          "200 € à l’État",
+          "300 € à l’État",
+          "500 € à l’État",
+          "Récupérer 800 €"
+        ],
+        "correctAnswer": 0,
+        "explanation": "TVA à décaisser = TVA collectée − TVA déductible, soit 500 − 300 = 200 €."
+      },
+      {
+        "question": "Lorsque la TVA déductible est supérieure à la TVA collectée, on peut obtenir…",
+        "answers": [
+          "Un crédit de TVA",
+          "Un bénéfice automatique",
+          "Une immobilisation",
+          "Une TVA collectée négative dans tous les cas"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Un excédent de TVA déductible peut constituer un crédit de TVA, selon la déclaration et les règles applicables."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour la TVA à décaisser ?",
+        "answers": [
+          "44551",
+          "44566",
+          "411",
+          "606"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 44551 correspond à la TVA à décaisser."
+      },
+      {
+        "question": "Dans le régime de TVA sur les débits, la TVA sur une vente est généralement exigible…",
+        "answers": [
+          "À l’encaissement uniquement",
+          "Au débit du compte client, selon les règles applicables",
+          "À la clôture annuelle uniquement",
+          "Quand le fournisseur est payé"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Pour les prestations de services ayant opté pour les débits et les opérations concernées, l’exigibilité suit les règles du régime des débits. Les règles diffèrent selon la nature de l’opération."
+      },
+      {
+        "question": "Pour une prestation de services relevant du régime habituel des encaissements, la TVA est généralement exigible…",
+        "answers": [
+          "À l’encaissement des sommes",
+          "À la création de l’entreprise",
+          "À la réception de toute facture fournisseur",
+          "Uniquement à la clôture"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Pour les prestations de services, la TVA est généralement exigible à l’encaissement, sauf option ou règle particulière."
+      },
+      {
+        "question": "Une entreprise vend un produit 500 € HT avec un taux de TVA de 10 %. Quel est le montant de TVA ?",
+        "answers": [
+          "5 €",
+          "50 €",
+          "100 €",
+          "550 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "TVA = 500 × 10 % = 50 €."
+      },
+      {
+        "question": "Quel document permet généralement de déclarer la TVA due par une entreprise au régime réel normal ?",
+        "answers": [
+          "La déclaration CA3",
+          "Le bulletin de paie",
+          "Le relevé bancaire uniquement",
+          "Le livre d’inventaire uniquement"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La déclaration CA3 est utilisée pour déclarer la TVA dans le régime réel normal. Les obligations varient selon le régime fiscal."
+      }
+    ],
+    "Immobilisations": [
+      {
+        "question": "Une immobilisation est destinée à…",
+        "answers": [
+          "Être revendue immédiatement",
+          "Servir durablement à l’activité",
+          "Être consommée dans la journée",
+          "Régler une dette"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Une immobilisation est destinée à servir durablement l’activité de l’entreprise."
+      },
+      {
+        "question": "Une machine coûte 10 000 € HT et la TVA est récupérable. Quel montant constitue généralement sa base d’acquisition avant les autres coûts ?",
+        "answers": [
+          "12 000 €",
+          "10 000 €",
+          "2 000 €",
+          "8 000 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La TVA récupérable est exclue du coût d’acquisition."
+      },
+      {
+        "question": "Quel compte correspond généralement aux installations techniques, matériel et outillage industriels ?",
+        "answers": [
+          "213",
+          "215",
+          "2183",
+          "401"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le compte 215 concerne les installations techniques, matériel et outillage industriels."
+      },
+      {
+        "question": "Quel compte correspond généralement au matériel de transport ?",
+        "answers": [
+          "2182",
+          "2183",
+          "215",
+          "606"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 2182 est utilisé pour le matériel de transport."
+      },
+      {
+        "question": "Une immobilisation est généralement inscrite à l’actif…",
+        "answers": [
+          "Pour son coût d’acquisition selon les règles comptables",
+          "Pour son prix de revente futur",
+          "Pour son coût TTC dans tous les cas",
+          "Pour zéro euro"
+        ],
+        "correctAnswer": 0,
+        "explanation": "L’entrée à l’actif repose généralement sur le coût d’acquisition ou de production, selon les règles applicables."
+      },
+      {
+        "question": "Une entreprise achète un ordinateur destiné à être utilisé plusieurs années. Il s’agit généralement…",
+        "answers": [
+          "D’une charge de personnel",
+          "D’une immobilisation",
+          "D’une dette fiscale",
+          "D’un produit"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Un ordinateur utilisé durablement pour l’activité peut être comptabilisé en immobilisation selon les règles et seuils applicables."
+      },
+      {
+        "question": "Quel document justifie généralement l’achat d’une immobilisation ?",
+        "answers": [
+          "La facture du fournisseur",
+          "Le bulletin de paie",
+          "Le relevé des congés",
+          "Le devis seul, dans tous les cas"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La facture constitue une pièce justificative courante de l’acquisition."
+      },
+      {
+        "question": "Une immobilisation est mise en service le 1er janvier. Sa durée d’utilisation prévue est de 5 ans. En linéaire, le taux annuel est de…",
+        "answers": [
+          "5 %",
+          "10 %",
+          "20 %",
+          "25 %"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Taux linéaire = 100 % / 5 ans = 20 % par an."
+      },
+      {
+        "question": "Lors de la cession d’une immobilisation, il faut notamment…",
+        "answers": [
+          "Ignorer sa valeur comptable",
+          "Comptabiliser la cession et traiter la sortie de l’actif",
+          "Supprimer toutes les dettes",
+          "Annuler le chiffre d’affaires de l’année"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La cession implique d’enregistrer l’opération et de sortir l’immobilisation ainsi que ses amortissements cumulés selon les règles applicables."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour les amortissements du matériel de transport ?",
+        "answers": [
+          "28182",
+          "2182",
+          "401",
+          "44571"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 28182 correspond aux amortissements du matériel de transport."
+      }
+    ],
+    "SIG": [
+      {
+        "question": "La marge commerciale concerne principalement…",
+        "answers": [
+          "Les entreprises commerciales",
+          "Uniquement les banques",
+          "Uniquement les associations",
+          "Les immobilisations financières"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La marge commerciale concerne l’activité d’achat et de revente de marchandises."
+      },
+      {
+        "question": "La valeur ajoutée mesure principalement…",
+        "answers": [
+          "Le chiffre d’affaires seul",
+          "La richesse créée par l’activité",
+          "Le montant des dettes",
+          "La trésorerie seule"
+        ],
+        "correctAnswer": 1,
+        "explanation": "La valeur ajoutée mesure la richesse créée après déduction des consommations en provenance de tiers."
+      },
+      {
+        "question": "L’EBE signifie…",
+        "answers": [
+          "Excédent brut d’exploitation",
+          "Évaluation bancaire externe",
+          "État budgétaire estimé",
+          "Écriture de bilan exceptionnelle"
+        ],
+        "correctAnswer": 0,
+        "explanation": "L’EBE est l’excédent brut d’exploitation."
+      },
+      {
+        "question": "Une entreprise réalise 50 000 € de ventes de marchandises et un coût d’achat des marchandises vendues de 30 000 €. Quelle est sa marge commerciale ?",
+        "answers": [
+          "80 000 €",
+          "30 000 €",
+          "20 000 €",
+          "50 000 €"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Marge commerciale = ventes de marchandises − coût d’achat des marchandises vendues, soit 50 000 − 30 000 = 20 000 €."
+      },
+      {
+        "question": "Quel élément intervient dans le calcul de la valeur ajoutée ?",
+        "answers": [
+          "Les consommations en provenance de tiers",
+          "Uniquement les dividendes",
+          "Uniquement les emprunts",
+          "Le capital social seul"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La valeur ajoutée se calcule notamment à partir de la production et/ou de la marge commerciale, diminuées des consommations en provenance de tiers."
+      },
+      {
+        "question": "Les charges de personnel interviennent notamment dans le calcul…",
+        "answers": [
+          "De l’EBE",
+          "Du capital social",
+          "Du montant de TVA collectée",
+          "Du total des immobilisations brutes"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les charges de personnel sont prises en compte dans le calcul de l’EBE."
+      },
+      {
+        "question": "Une entreprise a une valeur ajoutée de 80 000 € et des charges de personnel de 45 000 €. En simplifiant et en ignorant les autres éléments du calcul, quel est le solde après ces charges ?",
+        "answers": [
+          "125 000 €",
+          "35 000 €",
+          "45 000 €",
+          "80 000 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "80 000 − 45 000 = 35 000 €. Le calcul complet de l’EBE peut nécessiter d’autres éléments."
+      },
+      {
+        "question": "Le résultat d’exploitation tient notamment compte…",
+        "answers": [
+          "Des produits et charges d’exploitation",
+          "Uniquement des apports des associés",
+          "Uniquement de la TVA",
+          "Uniquement des remboursements d’emprunts"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le résultat d’exploitation mesure le résultat lié à l’activité d’exploitation."
+      },
+      {
+        "question": "Le résultat financier comprend notamment…",
+        "answers": [
+          "Les produits et charges financiers",
+          "Les ventes de marchandises uniquement",
+          "Les salaires uniquement",
+          "La TVA déductible uniquement"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le résultat financier résulte des produits financiers diminués des charges financières."
+      },
+      {
+        "question": "Un EBE positif signifie nécessairement que le résultat net est positif.",
+        "answers": [
+          "Vrai dans tous les cas",
+          "Faux",
+          "Vrai seulement si la TVA est nulle",
+          "Impossible si l’entreprise vend des marchandises"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le résultat net tient aussi compte notamment des amortissements, du résultat financier, des éléments exceptionnels et de l’impôt."
+      }
+    ],
+    "Opérations courantes": [
+      {
+        "question": "Quel compte est généralement utilisé pour les fournisseurs ?",
+        "answers": [
+          "401",
+          "411",
+          "512",
+          "707"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 401 enregistre généralement les dettes envers les fournisseurs."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour les clients ?",
+        "answers": [
+          "401",
+          "411",
+          "606",
+          "44566"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le compte 411 enregistre généralement les créances clients."
+      },
+      {
+        "question": "Quel compte correspond aux achats de matières premières ?",
+        "answers": [
+          "601",
+          "701",
+          "411",
+          "512"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 601 est utilisé pour les achats stockés de matières premières et fournitures."
+      },
+      {
+        "question": "Quel compte correspond généralement aux ventes de marchandises ?",
+        "answers": [
+          "607",
+          "707",
+          "601",
+          "401"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le compte 707 enregistre les ventes de marchandises."
+      },
+      {
+        "question": "Une facture fournisseur est reçue. La dette fournisseur est généralement enregistrée…",
+        "answers": [
+          "Au débit du 401",
+          "Au crédit du 401",
+          "Au débit du 512 uniquement",
+          "Au crédit du 411"
+        ],
+        "correctAnswer": 1,
+        "explanation": "À la réception d’une facture d’achat à crédit, le compte fournisseur 401 est généralement crédité."
+      },
+      {
+        "question": "Un client règle sa facture par virement bancaire. Quel compte de trésorerie est généralement débité ?",
+        "answers": [
+          "512",
+          "401",
+          "707",
+          "44571"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 512 Banque est débité lorsque l’argent arrive sur le compte bancaire."
+      },
+      {
+        "question": "Une facture d’achat de marchandises comporte un montant HT de 1 000 € et une TVA de 20 %. Quel est le TTC ?",
+        "answers": [
+          "1 020 €",
+          "1 200 €",
+          "800 €",
+          "200 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "TVA = 1 000 × 20 % = 200 €. TTC = 1 200 €."
+      },
+      {
+        "question": "Dans une écriture comptable équilibrée…",
+        "answers": [
+          "Le total débit égale le total crédit",
+          "Le débit est toujours supérieur",
+          "Le crédit est toujours supérieur",
+          "Il n’y a jamais de compte de tiers"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le total des débits doit être égal au total des crédits."
+      },
+      {
+        "question": "Une facture d’avoir fournisseur peut notamment correspondre à…",
+        "answers": [
+          "Un retour de marchandises ou une réduction accordée",
+          "Un nouveau prêt bancaire uniquement",
+          "Une fiche de paie",
+          "Une déclaration de congés"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Un avoir peut corriger une facture antérieure, par exemple après un retour ou une réduction."
+      },
+      {
+        "question": "Quel document sert couramment de justificatif à un paiement bancaire ?",
+        "answers": [
+          "Un relevé bancaire",
+          "Un organigramme",
+          "Un CV",
+          "Un devis non accepté uniquement"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le relevé bancaire permet de contrôler les mouvements enregistrés sur le compte."
+      }
+    ],
+    "Rapprochement bancaire": [
+      {
+        "question": "Le rapprochement bancaire sert principalement à…",
+        "answers": [
+          "Comparer le compte Banque de la comptabilité au relevé bancaire",
+          "Calculer les congés payés",
+          "Déterminer le capital social",
+          "Établir une facture client"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Il permet d’expliquer les différences entre les écritures comptables et les opérations figurant sur le relevé."
+      },
+      {
+        "question": "Un chèque émis est comptabilisé mais n’apparaît pas encore sur le relevé bancaire. Il s’agit généralement…",
+        "answers": [
+          "D’un décalage de rapprochement",
+          "D’une erreur obligatoirement définitive",
+          "D’un produit exceptionnel",
+          "D’une immobilisation"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le bénéficiaire n’a peut-être pas encore présenté le chèque à l’encaissement."
+      },
+      {
+        "question": "Des frais bancaires apparaissent sur le relevé mais pas en comptabilité. Il faut généralement…",
+        "answers": [
+          "Les enregistrer en comptabilité après vérification",
+          "Les ignorer définitivement",
+          "Les enregistrer en ventes",
+          "Les ajouter au capital"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les frais doivent être comptabilisés à partir du relevé et des justificatifs disponibles."
+      },
+      {
+        "question": "Le solde du compte 512 en comptabilité doit toujours être identique au relevé à chaque instant.",
+        "answers": [
+          "Vrai",
+          "Faux, des décalages peuvent exister",
+          "Vrai uniquement pour les chèques",
+          "Vrai uniquement en fin d’année"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Les opérations en transit et les écritures non encore enregistrées peuvent créer des différences temporaires."
+      },
+      {
+        "question": "Un virement reçu apparaît sur le relevé mais n’est pas comptabilisé. Quelle est la bonne démarche ?",
+        "answers": [
+          "Identifier l’origine et enregistrer l’opération",
+          "Supprimer le relevé",
+          "Le comptabiliser automatiquement en capital",
+          "Ne rien faire dans tous les cas"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Il faut identifier le paiement, puis le comptabiliser dans le compte approprié."
+      },
+      {
+        "question": "Le rapprochement bancaire doit permettre…",
+        "answers": [
+          "D’expliquer les écarts",
+          "De supprimer toutes les opérations en transit",
+          "De modifier le relevé bancaire",
+          "De remplacer le bilan"
+        ],
+        "correctAnswer": 0,
+        "explanation": "L’objectif est de justifier les différences entre les deux soldes."
+      },
+      {
+        "question": "Un prélèvement bancaire inconnu apparaît sur le relevé. Il faut d’abord…",
+        "answers": [
+          "Vérifier son origine et les pièces justificatives",
+          "Le classer immédiatement en vente",
+          "Le supprimer du relevé",
+          "L’ajouter au capital social"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Il faut identifier l’opération et vérifier son caractère autorisé avant sa comptabilisation ou toute contestation."
+      },
+      {
+        "question": "Une remise de chèques enregistrée en comptabilité n’apparaît pas encore à la banque. Cela peut être…",
+        "answers": [
+          "Un décalage temporaire",
+          "Une preuve de bénéfice",
+          "Une immobilisation",
+          "Une TVA collectée"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le traitement bancaire de la remise peut intervenir à une date différente de son enregistrement comptable."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour enregistrer les frais bancaires ?",
+        "answers": [
+          "627",
+          "707",
+          "215",
+          "401"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 627 concerne généralement les services bancaires et assimilés."
+      },
+      {
+        "question": "Une fois le rapprochement établi, les écarts doivent être…",
+        "answers": [
+          "Justifiés et suivis",
+          "Masqués",
+          "Ajoutés automatiquement au chiffre d’affaires",
+          "Toujours passés en charges exceptionnelles"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Chaque écart doit être expliqué ; une écriture de régularisation est nécessaire si une opération manque en comptabilité."
+      }
+    ],
+    "Amortissements": [
+      {
+        "question": "L’amortissement comptable traduit généralement…",
+        "answers": [
+          "La répartition du montant amortissable sur la durée d’utilisation",
+          "Le paiement d’une facture",
+          "La récupération de la TVA",
+          "Une hausse automatique de valeur"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Il répartit le montant amortissable selon la durée et le rythme de consommation des avantages économiques."
+      },
+      {
+        "question": "Une machine amortissable sur 5 ans en linéaire a un taux annuel de…",
+        "answers": [
+          "5 %",
+          "10 %",
+          "20 %",
+          "50 %"
+        ],
+        "correctAnswer": 2,
+        "explanation": "100 % / 5 ans = 20 % par an."
+      },
+      {
+        "question": "Un bien de 12 000 € est amorti en linéaire sur 4 ans, sans valeur résiduelle. Quelle est l’annuité pleine ?",
+        "answers": [
+          "1 000 €",
+          "2 000 €",
+          "3 000 €",
+          "4 000 €"
+        ],
+        "correctAnswer": 2,
+        "explanation": "12 000 / 4 = 3 000 € par année pleine."
+      },
+      {
+        "question": "L’amortissement commence généralement…",
+        "answers": [
+          "À la mise en service du bien",
+          "À la commande uniquement",
+          "À la création de l’entreprise",
+          "Au remboursement complet du fournisseur"
+        ],
+        "correctAnswer": 0,
+        "explanation": "En règle générale, le point de départ est la mise en service, selon les règles comptables applicables."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour la dotation aux amortissements d’exploitation ?",
+        "answers": [
+          "6811",
+          "2815",
+          "401",
+          "707"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 6811 correspond aux dotations aux amortissements sur immobilisations incorporelles et corporelles."
+      },
+      {
+        "question": "Quel type de compte enregistre les amortissements cumulés d’une immobilisation corporelle ?",
+        "answers": [
+          "Un compte de classe 28",
+          "Un compte de classe 40",
+          "Un compte de classe 70",
+          "Un compte de classe 60"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les amortissements cumulés sont enregistrés dans des comptes de classe 28."
+      },
+      {
+        "question": "Un bien de 6 000 € est amorti sur 3 ans en linéaire. Quel est le taux annuel ?",
+        "answers": [
+          "10 %",
+          "25 %",
+          "33,33 % environ",
+          "50 %"
+        ],
+        "correctAnswer": 2,
+        "explanation": "100 % / 3 = environ 33,33 % par an."
+      },
+      {
+        "question": "Un bien de 10 000 € est amorti sur 5 ans en linéaire. Quelle est sa valeur nette comptable après 2 annuités pleines, sans valeur résiduelle ?",
+        "answers": [
+          "10 000 €",
+          "8 000 €",
+          "6 000 €",
+          "2 000 €"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Annuité = 2 000 €. Après deux ans, amortissements cumulés = 4 000 €, donc VNC = 6 000 €."
+      },
+      {
+        "question": "La valeur nette comptable correspond généralement…",
+        "answers": [
+          "À la valeur d’origine moins les amortissements et dépréciations cumulés",
+          "Au prix TTC de la facture",
+          "Au chiffre d’affaires",
+          "Au solde bancaire"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La VNC correspond à la valeur comptable restante après les amortissements et dépréciations cumulés."
+      },
+      {
+        "question": "Une annuité d’amortissement est-elle nécessairement identique chaque année ?",
+        "answers": [
+          "Oui, dans toutes les méthodes",
+          "Non, cela dépend notamment de la méthode et de la période",
+          "Oui, même en cas de mise en service en cours d’année",
+          "Non, elle est toujours nulle la première année"
+        ],
+        "correctAnswer": 1,
+        "explanation": "En linéaire, l’annuité d’une année pleine est constante, mais le prorata temporis ou une autre méthode peut modifier les montants."
+      }
+    ],
+    "Provisions": [
+      {
+        "question": "Une provision pour risques et charges est constatée notamment lorsqu’il existe…",
+        "answers": [
+          "Une obligation probable dont le montant ou l’échéance est incertain",
+          "Une vente certaine",
+          "Un apport en capital",
+          "Une facture toujours payée"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une provision répond à des critères comptables, notamment une obligation envers un tiers et une sortie de ressources probable ou certaine à la clôture."
+      },
+      {
+        "question": "Une provision pour litige peut être constituée lorsque…",
+        "answers": [
+          "Un risque de perte probable est identifié et estimable",
+          "L’entreprise veut augmenter artificiellement ses bénéfices",
+          "Un client paie comptant",
+          "La banque verse un intérêt"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La provision doit être justifiée par la situation existant à la clôture et respecter les conditions comptables."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour une provision pour litiges ?",
+        "answers": [
+          "1511",
+          "401",
+          "707",
+          "512"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 1511 correspond généralement aux provisions pour litiges."
+      },
+      {
+        "question": "Quel compte enregistre généralement une dotation à une provision pour risques d’exploitation ?",
+        "answers": [
+          "6815",
+          "707",
+          "411",
+          "512"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 6815 est généralement utilisé pour les dotations aux provisions d’exploitation."
+      },
+      {
+        "question": "Une provision doit-elle être réexaminée à chaque clôture ?",
+        "answers": [
+          "Oui",
+          "Non, jamais",
+          "Seulement tous les dix ans",
+          "Uniquement si la banque le demande"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La provision doit être réévaluée selon les informations disponibles à la clôture."
+      },
+      {
+        "question": "Si le risque provisionné disparaît, il faut généralement…",
+        "answers": [
+          "Reprendre la provision devenue sans objet",
+          "La conserver éternellement",
+          "La transformer en capital automatiquement",
+          "L’enregistrer en vente"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une provision qui n’a plus de justification doit être reprise selon les règles comptables."
+      },
+      {
+        "question": "Une provision et un amortissement sont-ils la même chose ?",
+        "answers": [
+          "Oui",
+          "Non, ils répondent à des objectifs différents",
+          "Oui uniquement pour les véhicules",
+          "Oui uniquement à la clôture"
+        ],
+        "correctAnswer": 1,
+        "explanation": "L’amortissement répartit le montant amortissable d’un actif ; une provision couvre notamment un risque ou une charge répondant aux critères requis."
+      },
+      {
+        "question": "Une provision pour dépréciation d’une créance client peut être envisagée lorsque…",
+        "answers": [
+          "Le recouvrement de la créance est incertain",
+          "Le client a toujours payé à l’heure",
+          "La facture n’existe pas",
+          "La banque augmente le taux d’intérêt"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une dépréciation peut être constatée si la valeur recouvrable de la créance est inférieure à sa valeur comptable."
+      },
+      {
+        "question": "La provision pour risques est généralement présentée…",
+        "answers": [
+          "Au passif du bilan",
+          "Dans le chiffre d’affaires",
+          "Dans les disponibilités",
+          "Dans les ventes de marchandises"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les provisions pour risques et charges figurent généralement au passif du bilan."
+      },
+      {
+        "question": "La constitution d’une provision peut avoir un effet sur le résultat de l’exercice.",
+        "answers": [
+          "Oui, via une dotation",
+          "Non, jamais",
+          "Seulement sur le capital social",
+          "Seulement sur la TVA collectée"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une dotation à une provision est généralement comptabilisée en charge et réduit le résultat de l’exercice."
+      }
+    ],
+    "Paie": [
+      {
+        "question": "Le salaire brut correspond généralement…",
+        "answers": [
+          "À la rémunération avant déduction des cotisations salariales",
+          "Au salaire net payé",
+          "Au montant des ventes",
+          "Aux seules cotisations patronales"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le salaire brut sert notamment de base au calcul de nombreuses cotisations."
+      },
+      {
+        "question": "Le salaire net à payer est généralement inférieur au salaire brut notamment à cause…",
+        "answers": [
+          "Des cotisations salariales et retenues applicables",
+          "De la TVA sur les ventes",
+          "Des amortissements",
+          "Des créances clients"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le net à payer résulte du brut diminué des retenues applicables, avec les ajustements prévus sur le bulletin."
+      },
+      {
+        "question": "Quel compte enregistre généralement les rémunérations dues au personnel ?",
+        "answers": [
+          "421",
+          "401",
+          "411",
+          "707"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 421 correspond au personnel, rémunérations dues."
+      },
+      {
+        "question": "Quel compte est généralement utilisé pour les charges de sécurité sociale et de prévoyance ?",
+        "answers": [
+          "431",
+          "512",
+          "607",
+          "44571"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 431 est utilisé notamment pour la Sécurité sociale."
+      },
+      {
+        "question": "Les cotisations patronales sont généralement…",
+        "answers": [
+          "Des charges supportées par l’employeur",
+          "Des ventes de marchandises",
+          "Des créances clients",
+          "Des immobilisations"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les cotisations patronales constituent des charges sociales supportées par l’employeur."
+      },
+      {
+        "question": "Quel document détaille la rémunération et les retenues du salarié ?",
+        "answers": [
+          "Le bulletin de paie",
+          "Le relevé bancaire du fournisseur",
+          "Le grand livre client uniquement",
+          "Le devis commercial"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le bulletin de paie détaille les éléments de rémunération et les retenues applicables."
+      },
+      {
+        "question": "Le paiement du salaire par virement entraîne généralement…",
+        "answers": [
+          "Un crédit du compte 512",
+          "Un débit du compte 512",
+          "Un crédit du compte 707",
+          "Un débit du compte 401"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Le compte Banque est crédité lorsque l’argent sort du compte pour payer le salaire."
+      },
+      {
+        "question": "Quel compte correspond généralement aux charges de sécurité sociale et de prévoyance patronales ?",
+        "answers": [
+          "645",
+          "641",
+          "411",
+          "2183"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 645 enregistre généralement les charges de sécurité sociale et de prévoyance."
+      },
+      {
+        "question": "Quel compte enregistre généralement les rémunérations du personnel ?",
+        "answers": [
+          "641",
+          "645",
+          "512",
+          "44566"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le compte 641 correspond aux rémunérations du personnel."
+      },
+      {
+        "question": "Les congés payés acquis mais non encore pris peuvent nécessiter…",
+        "answers": [
+          "La comptabilisation d’une charge et d’une dette à la clôture",
+          "Une vente de marchandises",
+          "Une augmentation automatique du capital",
+          "Une annulation du bulletin de paie"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les droits acquis par les salariés peuvent nécessiter une provision ou une dette à la clôture selon les règles applicables."
+      }
+    ],
+    "Analyse financière": [
+      {
+        "question": "Le fonds de roulement net global se calcule généralement ainsi :",
+        "answers": [
+          "Ressources stables − emplois stables",
+          "Chiffre d’affaires − TVA",
+          "Créances clients − ventes",
+          "Salaires − cotisations"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le FRNG compare les ressources stables aux emplois stables."
+      },
+      {
+        "question": "Le besoin en fonds de roulement dépend notamment…",
+        "answers": [
+          "Des stocks, créances et dettes d’exploitation",
+          "Du seul capital social",
+          "Du seul résultat net",
+          "Uniquement de la TVA collectée"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le BFR reflète notamment le décalage entre les encaissements et décaissements liés au cycle d’exploitation."
+      },
+      {
+        "question": "La trésorerie nette peut se calculer par…",
+        "answers": [
+          "FRNG − BFR",
+          "BFR − chiffre d’affaires",
+          "Capital + TVA",
+          "Ventes − salaires uniquement"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La trésorerie nette correspond au FRNG diminué du BFR."
+      },
+      {
+        "question": "Une entreprise a un FRNG de 40 000 € et un BFR de 25 000 €. Sa trésorerie nette théorique est de…",
+        "answers": [
+          "65 000 €",
+          "15 000 €",
+          "25 000 €",
+          "-15 000 €"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Trésorerie nette = 40 000 − 25 000 = 15 000 €."
+      },
+      {
+        "question": "Le ratio d’autonomie financière permet notamment d’apprécier…",
+        "answers": [
+          "Le poids des capitaux propres dans le financement",
+          "Le taux de TVA",
+          "Le nombre de factures clients",
+          "Le taux d’amortissement d’un véhicule"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Il aide à apprécier l’importance des capitaux propres dans la structure de financement, selon la formule retenue."
+      },
+      {
+        "question": "Le chiffre d’affaires correspond généralement…",
+        "answers": [
+          "Aux ventes de biens et services de l’activité",
+          "Au bénéfice net",
+          "À la trésorerie disponible",
+          "Au total des capitaux propres"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le chiffre d’affaires représente les ventes de biens et services réalisées dans le cadre de l’activité."
+      },
+      {
+        "question": "Un ratio de liquidité vise principalement à apprécier…",
+        "answers": [
+          "La capacité à faire face aux dettes à court terme",
+          "La rentabilité des immobilisations uniquement",
+          "Le taux de TVA",
+          "Le montant des salaires bruts"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les ratios de liquidité évaluent la capacité à honorer les échéances à court terme à partir des actifs disponibles ou réalisables."
+      },
+      {
+        "question": "Le résultat net est généralement obtenu après prise en compte…",
+        "answers": [
+          "Des produits, charges et impôts concernés",
+          "Uniquement du chiffre d’affaires",
+          "Uniquement des créances clients",
+          "Uniquement du capital social"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le résultat net tient compte des produits et charges de l’exercice ainsi que de l’impôt sur les bénéfices, selon les règles applicables."
+      },
+      {
+        "question": "Une hausse des délais de paiement clients tend généralement à…",
+        "answers": [
+          "Augmenter le BFR",
+          "Réduire automatiquement le chiffre d’affaires",
+          "Augmenter le capital social",
+          "Supprimer les dettes fournisseurs"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Les créances clients immobilisent davantage de ressources et tendent à augmenter le BFR."
+      },
+      {
+        "question": "Une augmentation des délais de paiement fournisseurs, toutes choses égales par ailleurs, tend généralement à…",
+        "answers": [
+          "Réduire le BFR",
+          "Augmenter toujours les stocks",
+          "Réduire le capital social",
+          "Augmenter automatiquement le résultat net"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Des dettes fournisseurs plus élevées financent temporairement le cycle d’exploitation et tendent à réduire le BFR."
+      }
+    ],
+    "Contrôle de gestion": [
+      {
+        "question": "Une charge fixe est une charge qui, dans une certaine plage d’activité…",
+        "answers": [
+          "Reste globalement stable au total",
+          "Augmente toujours proportionnellement aux ventes",
+          "Est toujours nulle",
+          "Correspond uniquement à la TVA"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une charge fixe reste globalement stable au total dans une plage d’activité donnée."
+      },
+      {
+        "question": "Une charge variable évolue généralement…",
+        "answers": [
+          "Avec le niveau d’activité",
+          "Uniquement avec le capital social",
+          "Uniquement avec le taux de TVA",
+          "Sans aucun lien avec les quantités produites"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une charge variable dépend du niveau d’activité, par exemple des quantités produites ou vendues."
+      },
+      {
+        "question": "La marge sur coût variable se calcule par…",
+        "answers": [
+          "Chiffre d’affaires − coûts variables",
+          "Chiffre d’affaires − capitaux propres",
+          "TVA collectée − capital social",
+          "Immobilisations − dettes"
+        ],
+        "correctAnswer": 0,
+        "explanation": "La marge sur coût variable est égale au chiffre d’affaires diminué des coûts variables."
+      },
+      {
+        "question": "Le seuil de rentabilité correspond au niveau de chiffre d’affaires pour lequel…",
+        "answers": [
+          "Le résultat est nul",
+          "La TVA est toujours nulle",
+          "Le capital social double",
+          "Les stocks sont nécessairement nuls"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Au seuil de rentabilité, la marge sur coûts variables couvre les charges fixes et le résultat est nul."
+      },
+      {
+        "question": "Une entreprise a 20 000 € de charges fixes et un taux de marge sur coût variable de 40 %. Quel est son seuil de rentabilité en chiffre d’affaires ?",
+        "answers": [
+          "8 000 €",
+          "20 000 €",
+          "50 000 €",
+          "80 000 €"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Seuil de rentabilité = charges fixes / taux de marge sur coût variable = 20 000 / 0,40 = 50 000 €."
+      },
+      {
+        "question": "Le coût complet comprend généralement…",
+        "answers": [
+          "Les charges directes et indirectes imputées au coût",
+          "Uniquement la TVA",
+          "Uniquement les salaires",
+          "Uniquement les charges variables"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le coût complet regroupe les charges directes et une quote-part des charges indirectes selon une méthode d’imputation."
+      },
+      {
+        "question": "Une charge directe est une charge qui…",
+        "answers": [
+          "Peut être affectée directement à un coût sans répartition préalable",
+          "Doit toujours être fixe",
+          "Est toujours financière",
+          "N’est jamais comptabilisée"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Une charge directe peut être rattachée directement à un objet de coût."
+      },
+      {
+        "question": "Un budget prévisionnel sert notamment à…",
+        "answers": [
+          "Prévoir et piloter l’activité et les ressources",
+          "Remplacer toutes les factures",
+          "Supprimer les contrôles",
+          "Éviter la comptabilité"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le budget permet de planifier les ressources et de comparer ensuite les prévisions aux réalisations."
+      },
+      {
+        "question": "Un écart budgétaire est généralement…",
+        "answers": [
+          "La différence entre une réalisation et une prévision",
+          "Le total des immobilisations",
+          "Le taux de TVA",
+          "Le capital social"
+        ],
+        "correctAnswer": 0,
+        "explanation": "L’écart mesure la différence entre le réel et le budget, selon une convention de calcul à préciser."
+      },
+      {
+        "question": "Un coût spécifique peut inclure…",
+        "answers": [
+          "Les charges variables et les charges fixes spécifiques",
+          "Uniquement les charges financières",
+          "Uniquement la TVA collectée",
+          "Uniquement les apports en capital"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Le coût spécifique associe les charges variables et les charges fixes propres à l’objet étudié."
+      }
+    ]
+  }
+}
