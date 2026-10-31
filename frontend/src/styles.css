@@ -5,6 +5,7 @@
 
 
 .quiz-bank-meta{margin:-6px 0 18px;color:#718096;font-size:12px;line-height:1.5;letter-spacing:.01em}
+.quiz-topic-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:310px;overflow:auto;margin:14px 0 8px;padding-right:3px}.quiz-topic-picker-actions{grid-column:1/-1;display:flex;justify-content:space-between;margin-bottom:3px}.quiz-topic-picker-actions button{border:0;background:transparent;color:#2c61b5;font-size:10px;font-weight:700;padding:5px 0}.quiz-topic-option{display:flex;align-items:center;gap:9px;border:1px solid #e4eaf1;border-radius:9px;padding:10px;cursor:pointer;min-width:0}.quiz-topic-option:has(input:checked){border-color:#9ab7e4;background:#f4f8ff}.quiz-topic-option input{accent-color:#285eb5;width:15px;height:15px;flex:0 0 auto}.quiz-topic-option span{min-width:0}.quiz-topic-option strong,.quiz-topic-option small{display:block}.quiz-topic-option strong{font-size:10px;color:#394a60}.quiz-topic-option small{font-size:9px;color:#8996a5;margin-top:3px}@media(max-width:520px){.quiz-topic-picker{grid-template-columns:1fr;max-height:38vh}}
 
 /* Tracteur Case IH : effet de sortie d'écran (illustration PNG détourée de l'ancienne app). */
 .hero-tractor-popout{position:absolute;z-index:3;right:2.5%;bottom:-13%;width:min(47%,570px);height:125%;object-fit:contain;object-position:center bottom;pointer-events:none;filter:drop-shadow(0 22px 18px #07172b75);transform-origin:65% 85%;animation:tractor-screen-emerge 1.15s cubic-bezier(.16,.84,.28,1) both,tractor-screen-float 5.2s ease-in-out 1.15s infinite alternate}
