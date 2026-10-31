@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import questionBank from './data/questionBank.json';
 import {
   Activity, ArrowDownUp, ArrowUpRight, BookOpen, Bookmark, BookmarkCheck,
   Calculator, Check, CheckCheck, ChevronDown, CircleHelp, Clock3, Cloud,
@@ -19,20 +20,17 @@ const filters = [
   { id: 'Favoris', label: 'Favoris', icon: Star },
   { id: 'Lus', label: 'Déjà lus', icon: Eye }
 ];
-const QUIZ = [
-  { topic: 'TVA', q: 'La TVA collectée correspond à…', a: ['La TVA facturée aux clients', 'La TVA payée aux fournisseurs', 'Le total des achats', 'Le résultat de l’entreprise'], correct: 0, why: 'La TVA collectée est facturée aux clients. Elle est généralement due à l’État selon le régime applicable.' },
-  { topic: 'TVA', q: 'Quel compte enregistre généralement la TVA collectée ?', a: ['401', '411', '44571', '512'], correct: 2, why: 'Le compte 44571 correspond à la TVA collectée.' },
-  { topic: 'TVA', q: 'Une vente de 100 € HT est soumise à 20 % de TVA. Quel est le montant TTC ?', a: ['100 €', '120 €', '20 €', '80 €'], correct: 1, why: 'TVA = 100 × 20 % = 20 €. TTC = 100 + 20 = 120 €.' },
-  { topic: 'Comptabilité', q: 'Quel document présente le patrimoine de l’entreprise à une date donnée ?', a: ['Le compte de résultat', 'Le bilan', 'Le grand livre', 'Le journal'], correct: 1, why: 'Le bilan présente les éléments d’actif et de passif à une date donnée.' },
-  { topic: 'Comptabilité', q: 'Le compte 512 correspond à…', a: ['La caisse', 'Les clients', 'La banque', 'Les fournisseurs'], correct: 2, why: 'Le compte 512 est utilisé pour enregistrer les opérations bancaires.' },
-  { topic: 'Gestion', q: 'Le BFR correspond principalement au décalage entre…', a: ['Les produits et les charges', 'Les encaissements et les décaissements du cycle d’exploitation', 'Les capitaux propres et les emprunts', 'Les ventes et les investissements'], correct: 1, why: 'Le BFR mesure le besoin de financement lié au décalage des flux du cycle d’exploitation.' },
-  { topic: 'Gestion', q: 'Une hausse du délai de règlement clients a généralement tendance à…', a: ['Diminuer le BFR', 'Augmenter le BFR', 'Augmenter le FRNG', 'Réduire les créances'], correct: 1, why: 'Les créances clients restent immobilisées plus longtemps, ce qui augmente généralement le BFR.' },
-  { topic: 'Comptabilité', q: 'Une immobilisation est un élément destiné à être utilisé…', a: ['Moins d’un mois', 'Sur plusieurs exercices', 'Uniquement pour être revendu', 'Pour régler les fournisseurs'], correct: 1, why: 'Une immobilisation est destinée à servir durablement l’activité de l’entreprise.' },
-  { topic: 'Gestion', q: 'La marge commerciale se calcule généralement par…', a: ['Ventes de marchandises − coût d’achat des marchandises vendues', 'Résultat net − impôts', 'CA − salaires', 'Produits − trésorerie'], correct: 0, why: 'La marge commerciale mesure la différence entre les ventes de marchandises et leur coût d’achat.' },
-  { topic: 'TVA', q: 'Lorsque la TVA déductible est supérieure à la TVA collectée, l’entreprise peut obtenir…', a: ['Un crédit de TVA', 'Un bénéfice automatique', 'Une immobilisation', 'Une dette fournisseur'], correct: 0, why: 'L’excédent de TVA déductible constitue un crédit de TVA, selon les règles applicables.' },
-  { topic: 'Comptabilité', q: 'Le compte 401 désigne…', a: ['Les clients', 'Les fournisseurs', 'La banque', 'Le capital'], correct: 1, why: 'Le compte 401 est le compte collectif des fournisseurs.' },
-  { topic: 'Gestion', q: 'Le FRNG est généralement calculé comme…', a: ['Actif circulant − dettes', 'Ressources stables − emplois stables', 'Trésorerie − BFR', 'CA − charges fixes'], correct: 1, why: 'Le fonds de roulement net global correspond à l’excédent des ressources stables sur les emplois stables.' }
-];
+const QUIZ = Object.entries(questionBank.topics).flatMap(([topic, questions]) =>
+  questions.map((item, index) => ({
+    id: `${topic}-${index}`,
+    topic,
+    q: item.question,
+    a: item.answers,
+    correct: item.correctAnswer,
+    why: item.explanation,
+    difficulty: item.difficulty || 'intermediaire'
+  }))
+);
 
 function readStore(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } }
 function cleanText(value = '') { return String(value).replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim(); }
@@ -60,6 +58,7 @@ export default function App() {
   const [quizAnswer, setQuizAnswer] = useState(null);
   const [quizScore, setQuizScore] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState([]);
   const [mobileNav, setMobileNav] = useState(false);
   const [sortNewest, setSortNewest] = useState(true);
 
@@ -140,10 +139,29 @@ export default function App() {
   }
 
   const nextQuiz = () => {
-    if (quizIndex + 1 >= QUIZ.length) { setQuizDone(true); return; }
+    if (quizIndex + 1 >= quizQuestions.length) { setQuizDone(true); return; }
     setQuizIndex(i => i + 1); setQuizAnswer(null);
   };
-  const startQuiz = () => { setQuizIndex(0); setQuizAnswer(null); setQuizScore(0); setQuizDone(false); setQuizOpen(true); };
+  const startQuiz = () => {
+    // Une question tirée au sort dans chacun des dix thèmes pour une session équilibrée.
+    const session = Object.entries(questionBank.topics).map(([topic, questions]) => {
+      const item = questions[Math.floor(Math.random() * questions.length)];
+      return {
+        topic,
+        q: item.question,
+        a: item.answers,
+        correct: item.correctAnswer,
+        why: item.explanation,
+        difficulty: item.difficulty || 'intermediaire'
+      };
+    }).sort(() => Math.random() - 0.5);
+    setQuizQuestions(session);
+    setQuizIndex(0);
+    setQuizAnswer(null);
+    setQuizScore(0);
+    setQuizDone(false);
+    setQuizOpen(true);
+  };
 
   return <div className="app-shell" style={{ '--accent': accent }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
@@ -198,6 +216,6 @@ export default function App() {
 
     {triggerOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget&&!triggering)setTriggerOpen(false);}}><div className="modal"><button className="modal-close" onClick={()=>!triggering&&setTriggerOpen(false)}><X size={18}/></button><div className="modal-icon"><CloudCog size={23}/></div><div className="eyebrow">AUTOMATISATION</div><h2>Lancer une nouvelle veille</h2><p>Déclenchez la collecte et la génération des résumés IA. Le site attendra automatiquement la publication des nouveaux articles.</p><label className="field-label" htmlFor="app-secret">Secret d’accès</label><input id="app-secret" className="modal-input" type="password" value={secret} onChange={e=>setSecret(e.target.value)} placeholder="APP_SECRET" autoFocus disabled={triggering}/>{triggerMessage&&<div className={`trigger-message ${triggerMessage.includes('récupérée')?'success':''}`}>{triggering&&<LoaderCircle size={15} className="spin"/>}{triggerMessage}</div>}<div className="modal-actions"><button className="secondary-btn" onClick={()=>setTriggerOpen(false)} disabled={triggering}>Fermer</button><button className="primary-btn" onClick={launchNewWatch} disabled={triggering||!secret.trim()}>{triggering?<LoaderCircle size={16} className="spin"/>:<CloudCog size={16}/>} {triggering?'En cours…':'Lancer la veille'}</button></div><small className="privacy-note">Le secret est transmis au service de déclenchement et n’est pas enregistré dans le navigateur.</small></div></div>}
 
-    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div>{quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {QUIZ.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/QUIZ.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={startQuiz}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {QUIZ.length}</span><div><i style={{width:`${(quizIndex+1)/QUIZ.length*100}%`}}/></div></div><span className="quiz-topic">{QUIZ[quizIndex].topic}</span><h2>{QUIZ[quizIndex].q}</h2><div className="quiz-answers">{QUIZ[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===QUIZ[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==QUIZ[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===QUIZ[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===QUIZ[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===QUIZ[quizIndex].correct?'good':''}`}><strong>{quizAnswer===QUIZ[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{QUIZ[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===QUIZ.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
+    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div><div className="quiz-bank-meta">500 questions disponibles · 10 thèmes · 1 question tirée au sort par thème à chaque session</div>{quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={startQuiz}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
   </div>;
 }
