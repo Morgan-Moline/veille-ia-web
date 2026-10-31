@@ -42,6 +42,8 @@ export default function App() {
   const [triggering, setTriggering] = useState(false);
   const [triggerMessage, setTriggerMessage] = useState('');
   const [quizOpen, setQuizOpen] = useState(false);
+  const [quizSetupOpen, setQuizSetupOpen] = useState(false);
+  const [quizSelectedTopics, setQuizSelectedTopics] = useState(() => Object.keys(questionBank.topics));
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState(null);
   const [quizScore, setQuizScore] = useState(0);
@@ -130,25 +132,21 @@ export default function App() {
     if (quizIndex + 1 >= quizQuestions.length) { setQuizDone(true); return; }
     setQuizIndex(i => i + 1); setQuizAnswer(null);
   };
-  const startQuiz = () => {
-    // Une question tirée au sort dans chacun des dix thèmes pour une session équilibrée.
-    const session = Object.entries(questionBank.topics).map(([topic, questions]) => {
-      const item = questions[Math.floor(Math.random() * questions.length)];
-      return {
-        topic,
-        q: item.question,
-        a: item.answers,
-        correct: item.correctAnswer,
-        why: item.explanation,
-        difficulty: item.difficulty || 'intermediaire'
-      };
-    }).sort(() => Math.random() - 0.5);
-    setQuizQuestions(session);
-    setQuizIndex(0);
-    setQuizAnswer(null);
-    setQuizScore(0);
-    setQuizDone(false);
+  const openQuizSetup = () => {
+    setQuizSelectedTopics(Object.keys(questionBank.topics));
+    setQuizSetupOpen(true);
     setQuizOpen(true);
+  };
+  const startQuiz = (topics = quizSelectedTopics) => {
+    const session = Object.entries(questionBank.topics)
+      .filter(([topic]) => topics.includes(topic))
+      .map(([topic, questions]) => {
+        const item = questions[Math.floor(Math.random() * questions.length)];
+        return { topic, q: item.question, a: item.answers, correct: item.correctAnswer, why: item.explanation, difficulty: item.difficulty || 'intermediaire' };
+      }).sort(() => Math.random() - 0.5);
+    if (!session.length) return;
+    setQuizQuestions(session); setQuizIndex(0); setQuizAnswer(null); setQuizScore(0);
+    setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
   return <div className="app-shell" style={{ '--accent': accent }}>
@@ -167,7 +165,7 @@ export default function App() {
     {mobileNav && <button className="scrim" onClick={() => setMobileNav(false)} aria-label="Fermer le menu"/>}
 
     <main className="main-area">
-      <header className="topbar"><div className="topbar-left"><button className="icon-btn mobile-menu" onClick={() => setMobileNav(true)}><Menu size={20}/></button><div className="breadcrumb">Veille IA <span>/</span> <strong>{selectedCategory === 'Toutes' ? 'Vue d’ensemble' : currentCategory?.short}</strong></div></div><div className="top-actions"><div className="sync-label"><span className="status-dot"/> Données synchronisées</div><button className="top-btn" onClick={startQuiz}><GraduationCap size={17}/><span>Mode révision</span></button><button className="top-btn" onClick={() => loadArticles()} disabled={loading}><RefreshCw size={16} className={loading ? 'spin' : ''}/><span>Actualiser</span></button><button className="primary-btn" onClick={() => {setTriggerMessage('');setSecret('');setTriggerOpen(true);}}><CloudCog size={17}/><span>Nouvelle veille</span></button></div></header>
+      <header className="topbar"><div className="topbar-left"><button className="icon-btn mobile-menu" onClick={() => setMobileNav(true)}><Menu size={20}/></button><div className="breadcrumb">Veille IA <span>/</span> <strong>{selectedCategory === 'Toutes' ? 'Vue d’ensemble' : currentCategory?.short}</strong></div></div><div className="top-actions"><div className="sync-label"><span className="status-dot"/> Données synchronisées</div><button className="top-btn" onClick={openQuizSetup}><GraduationCap size={17}/><span>Mode révision</span></button><button className="top-btn" onClick={() => loadArticles()} disabled={loading}><RefreshCw size={16} className={loading ? 'spin' : ''}/><span>Actualiser</span></button><button className="primary-btn" onClick={() => {setTriggerMessage('');setSecret('');setTriggerOpen(true);}}><CloudCog size={17}/><span>Nouvelle veille</span></button></div></header>
 
       <div className="content-wrap">
         <section className={`hero ${selectedCategory === 'Toutes' ? 'hero-all' : ''}`} style={{'--hero-accent': accent, '--hero-secondary': currentCategory?.secondary || '#55a6e8'}}>
@@ -205,6 +203,6 @@ export default function App() {
 
     {triggerOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget&&!triggering)setTriggerOpen(false);}}><div className="modal"><button className="modal-close" onClick={()=>!triggering&&setTriggerOpen(false)}><X size={18}/></button><div className="modal-icon"><CloudCog size={23}/></div><div className="eyebrow">AUTOMATISATION</div><h2>Lancer une nouvelle veille</h2><p>Déclenchez la collecte et la génération des résumés IA. Le site attendra automatiquement la publication des nouveaux articles.</p><label className="field-label" htmlFor="app-secret">Secret d’accès</label><input id="app-secret" className="modal-input" type="password" value={secret} onChange={e=>setSecret(e.target.value)} placeholder="APP_SECRET" autoFocus disabled={triggering}/>{triggerMessage&&<div className={`trigger-message ${triggerMessage.includes('récupérée')?'success':''}`}>{triggering&&<LoaderCircle size={15} className="spin"/>}{triggerMessage}</div>}<div className="modal-actions"><button className="secondary-btn" onClick={()=>setTriggerOpen(false)} disabled={triggering}>Fermer</button><button className="primary-btn" onClick={launchNewWatch} disabled={triggering||!secret.trim()}>{triggering?<LoaderCircle size={16} className="spin"/>:<CloudCog size={16}/>} {triggering?'En cours…':'Lancer la veille'}</button></div><small className="privacy-note">Le secret est transmis au service de déclenchement et n’est pas enregistré dans le navigateur.</small></div></div>}
 
-    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div><div className="quiz-bank-meta">500 questions disponibles · 10 thèmes · 1 question tirée au sort par thème à chaque session</div>{quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={startQuiz}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
+    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div><div className="quiz-bank-meta">500 questions disponibles · 10 thèmes · 1 question tirée au sort par thème à chaque session</div>{quizSetupOpen?<><div className="quiz-bank-meta">500 questions disponibles · Choisis les thèmes à travailler. Une question sera tirée au sort dans chaque thème sélectionné.</div><h2>Sur quels thèmes veux-tu réviser ?</h2><div className="quiz-topic-picker"><div className="quiz-topic-picker-actions"><button type="button" onClick={()=>setQuizSelectedTopics(Object.keys(questionBank.topics))}>Tout sélectionner</button><button type="button" onClick={()=>setQuizSelectedTopics([])}>Tout désélectionner</button></div>{Object.entries(questionBank.topics).map(([topic,questions])=><label className="quiz-topic-option" key={topic}><input type="checkbox" checked={quizSelectedTopics.includes(topic)} onChange={e=>setQuizSelectedTopics(current=>e.target.checked?[...current,topic]:current.filter(item=>item!==topic))}/><span><strong>{topic}</strong><small>{questions.length} questions</small></span></label>)}</div><div className="modal-actions"><span className="score-label">{quizSelectedTopics.length} thème(s) sélectionné(s)</span><button className="primary-btn" disabled={!quizSelectedTopics.length} onClick={()=>startQuiz()}>Commencer <ArrowUpRight size={15}/></button></div></>:{quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={openQuizSetup}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
   </div>;
 }
