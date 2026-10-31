@@ -5,3 +5,10 @@
 
 
 .quiz-bank-meta{margin:-6px 0 18px;color:#718096;font-size:12px;line-height:1.5;letter-spacing:.01em}
+
+/* Tracteur Case IH : effet de sortie d'écran (illustration PNG détourée de l'ancienne app). */
+.hero-tractor-popout{position:absolute;z-index:3;right:2.5%;bottom:-13%;width:min(47%,570px);height:125%;object-fit:contain;object-position:center bottom;pointer-events:none;filter:drop-shadow(0 22px 18px #07172b75);transform-origin:65% 85%;animation:tractor-screen-emerge 1.15s cubic-bezier(.16,.84,.28,1) both,tractor-screen-float 5.2s ease-in-out 1.15s infinite alternate}
+@keyframes tractor-screen-emerge{0%{opacity:0;transform:perspective(900px) translate3d(95px,75px,-180px) rotateY(-17deg) rotateZ(-7deg) scale(.52)}65%{opacity:1;transform:perspective(900px) translate3d(-8px,-5px,35px) rotateY(5deg) rotateZ(1deg) scale(1.08)}100%{opacity:1;transform:perspective(900px) translate3d(0,0,0) rotateY(0) rotateZ(0) scale(1)}}
+@keyframes tractor-screen-float{from{transform:perspective(900px) translate3d(0,0,0) rotateY(-1deg)}to{transform:perspective(900px) translate3d(-5px,-7px,12px) rotateY(1.5deg)}}
+@media(max-width:650px){.hero-tractor-popout{right:-10%;bottom:-8%;width:66%;height:93%;opacity:.88}}
+@media(prefers-reduced-motion:reduce){.hero-tractor-popout{animation:none}}
