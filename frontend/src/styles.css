@@ -134,3 +134,28 @@ button:focus-visible{
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Les effets premium respectent la palette propre à chaque catégorie */
+.primary-btn{
+  background:linear-gradient(115deg,var(--accent,#2468b4),var(--accent-secondary,#f28c28),var(--accent,#2468b4));
+  background-size:220% 100%;
+  box-shadow:0 7px 18px color-mix(in srgb,var(--accent,#2468b4) 28%,transparent),inset 0 1px #ffffff45;
+}
+.primary-btn:hover{
+  box-shadow:0 13px 28px color-mix(in srgb,var(--accent,#2468b4) 38%,transparent),0 0 0 4px color-mix(in srgb,var(--accent,#2468b4) 12%,transparent);
+}
+.hero-symbol{
+  color:var(--hero-secondary,#55a6e8);
+  border-color:color-mix(in srgb,var(--hero-secondary,#55a6e8) 42%,transparent);
+  box-shadow:0 0 28px color-mix(in srgb,var(--hero-accent,#2468b4) 20%,transparent);
+}
+.hero-orbit{border-color:color-mix(in srgb,var(--hero-accent,#2468b4) 28%,transparent)}
+.hero-orbit.orbit-two{border-color:color-mix(in srgb,var(--hero-secondary,#55a6e8) 24%,transparent)}
+.theme-card:hover .theme-icon{
+  color:var(--theme-accent,#2468b4);
+  border-color:color-mix(in srgb,var(--theme-accent,#2468b4) 35%,white);
+}
+.article-card:hover::before{
+  background:linear-gradient(90deg,transparent,var(--card-accent,#3975c9),var(--card-secondary,#55a6e8),transparent);
+}
