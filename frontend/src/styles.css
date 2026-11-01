@@ -159,3 +159,52 @@ button:focus-visible{
 .article-card:hover::before{
   background:linear-gradient(90deg,transparent,var(--card-accent,#3975c9),var(--card-secondary,#55a6e8),transparent);
 }
+
+
+/* --- Bandeaux immersifs : visuels grand format et palettes par thème --- */
+.hero{
+  background:linear-gradient(120deg,var(--hero-accent,#2468b4),var(--hero-secondary,#55a6e8));
+}
+.hero-photo{
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat;
+  background-color:var(--hero-accent,#2468b4);
+}
+.hero-triptych{
+  background:#17365f;
+}
+.hero-triptych div{
+  background-size:cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat;
+  background-color:var(--hero-accent,#2468b4);
+}
+.hero-overlay{
+  background:linear-gradient(
+    105deg,
+    color-mix(in srgb,var(--hero-accent,#2468b4) 92%,#071426) 0%,
+    color-mix(in srgb,var(--hero-accent,#2468b4) 78%,#071426) 35%,
+    color-mix(in srgb,var(--hero-accent,#2468b4) 48%,transparent) 67%,
+    color-mix(in srgb,var(--hero-secondary,#55a6e8) 38%,transparent) 100%
+  );
+}
+.hero h1 em{
+  color:color-mix(in srgb,var(--hero-secondary,#55a6e8) 72%,white);
+}
+.hero-kicker{color:#fff}
+.kicker-line{background:var(--hero-secondary,#55a6e8);box-shadow:0 0 12px color-mix(in srgb,var(--hero-secondary,#55a6e8) 65%,transparent)}
+.hero-chip{
+  border-color:color-mix(in srgb,var(--hero-secondary,#55a6e8) 58%,white);
+  background:color-mix(in srgb,var(--hero-accent,#2468b4) 42%,transparent);
+}
+@media(max-width:650px){
+  .hero-photo{background-position:center center!important}
+  .hero-overlay{
+    background:linear-gradient(105deg,
+      color-mix(in srgb,var(--hero-accent,#2468b4) 91%,#071426) 0%,
+      color-mix(in srgb,var(--hero-accent,#2468b4) 72%,transparent) 62%,
+      color-mix(in srgb,var(--hero-secondary,#55a6e8) 45%,transparent) 100%
+    );
+  }
+}
