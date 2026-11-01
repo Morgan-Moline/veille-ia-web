@@ -953,3 +953,57 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   }
   .theme-card,.article-card,.primary-btn,.top-btn,.secondary-btn{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
+
+
+/* CHROME IRISÉ DISCRET : l'effet miroir appartient au fond, pas aux commandes */
+.app-shell{
+  position:relative;
+  isolation:isolate;
+  background-color:var(--theme-bg);
+  background-image:
+    radial-gradient(ellipse at 16% 8%,color-mix(in srgb,var(--accent) 19%,transparent) 0%,transparent 43%),
+    radial-gradient(ellipse at 84% 18%,color-mix(in srgb,var(--accent-secondary) 13%,transparent) 0%,transparent 39%),
+    radial-gradient(ellipse at 52% 92%,color-mix(in srgb,var(--accent-tertiary) 9%,transparent) 0%,transparent 48%),
+    linear-gradient(128deg,color-mix(in srgb,var(--theme-bg) 82%,#ffffff 18%) 0%,var(--theme-bg) 36%,color-mix(in srgb,var(--theme-bg) 82%,#000000 18%) 72%,color-mix(in srgb,var(--theme-bg) 90%,var(--accent) 10%) 100%)!important;
+  background-attachment:fixed!important;
+}
+body{
+  background:var(--theme-bg)!important;
+}
+.main-area{
+  background:transparent!important;
+}
+
+/* Reflets doux sur les grandes surfaces vitrées, sans relief excessif */
+.sidebar,.topbar,.sidebar-note,.stats-row .stat-card,.article-card,
+.empty-state,.search-box,.quiz-card,.quiz-modal,.modal-card,.summary-box{
+  background-image:
+    linear-gradient(118deg,rgba(255,255,255,.075),transparent 27%,color-mix(in srgb,var(--accent-secondary) 6%,transparent) 66%,rgba(255,255,255,.035)),
+    linear-gradient(150deg,color-mix(in srgb,var(--theme-panel) 94%,white 6%),color-mix(in srgb,var(--theme-bg) 94%,#000 6%))!important;
+  border-top-color:rgba(255,255,255,.30)!important;
+  border-bottom-color:color-mix(in srgb,var(--theme-line) 75%,#000)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 8px 24px rgba(0,0,0,.20)!important;
+}
+
+/* Commandes volontairement sobres : le chrome ne doit pas les transformer en miroirs */
+.theme-card,.sidebar .nav-item,.primary-btn,.top-btn,.secondary-btn,
+.filter-tabs button,.sort-btn{
+  background-image:none!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.18)!important;
+  border-top-color:color-mix(in srgb,var(--theme-line) 75%,white 25%)!important;
+  border-bottom-color:color-mix(in srgb,var(--theme-bg) 65%,black 35%)!important;
+}
+.theme-card:hover,.sidebar .nav-item:hover,.primary-btn:hover,
+.top-btn:hover,.secondary-btn:hover,.filter-tabs button:hover{
+  box-shadow:0 5px 14px rgba(0,0,0,.24),0 0 12px color-mix(in srgb,var(--accent) 12%,transparent)!important;
+}
+.primary-btn{
+  background-color:var(--accent)!important;
+  color:#fff!important;
+}
+.sidebar .nav-item.active{
+  background-color:color-mix(in srgb,var(--accent) 22%,var(--theme-panel))!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .app-shell{background-attachment:scroll!important}
+}
