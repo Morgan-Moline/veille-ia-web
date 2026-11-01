@@ -8,11 +8,10 @@ import {
   Eye, EyeOff, Filter, ExternalLink, ChartNoAxesCombined, CalendarDays
 } from 'lucide-react';
 
-const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';
-const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#9b5cff', secondary: '#ff4fd8', tertiary: '#c7d0df', bg: '#241238', bgGlow: '#521d61', panel: '#191329', line: '#58366f', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
-  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#287bff', secondary: '#39d9ff', tertiary: '#b9e8ff', bg: '#0b1d38', bgGlow: '#123e68', panel: '#10233c', line: '#28517a', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#e32645', secondary: '#ff8a24', tertiary: '#aab2c0', bg: '#28131b', bgGlow: '#512617', panel: '#211923', line: '#60313a', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';const categories = [
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#B84DFF', secondary: '#FF3DCE', tertiary: '#F4B7FF', quaternary: '#FF795E', bg: '#1B0B2E', bgGlow: '#632080', panel: '#241238', line: '#783DA0', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#397BFF', secondary: '#00E5FF', tertiary: '#B8F5FF', quaternary: '#786BFF', bg: '#07172F', bgGlow: '#145C91', panel: '#102746', line: '#286DAB', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#FF315A', secondary: '#FF8A24', tertiary: '#FFD166', quaternary: '#D7E0EC', bg: '#260D17', bgGlow: '#713018', panel: '#301923', line: '#87384A', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
@@ -169,7 +168,7 @@ export default function App() {
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
-  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#f4f7ff', '--accent-tertiary': currentCategory?.tertiary || '#7c8ba3', '--theme-bg': currentCategory?.bg || '#171c27', '--theme-bg-glow': currentCategory?.bgGlow || '#344258', '--theme-panel': currentCategory?.panel || '#202938', '--theme-line': currentCategory?.line || '#58677b' }}>
+  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#6C8CFF', '--accent-tertiary': currentCategory?.tertiary || '#DCE8F5', '--accent-quaternary': currentCategory?.quaternary || '#A78BFA', '--theme-bg': currentCategory?.bg || '#171c27', '--theme-bg-glow': currentCategory?.bgGlow || '#344258', '--theme-panel': currentCategory?.panel || '#202938', '--theme-line': currentCategory?.line || '#58677b' }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand"><div className="brand-mark"><Sparkles size={20}/></div><div><strong>Veille<span>IA</span></strong><small>Votre veille, au bon endroit</small></div><button className="icon-btn mobile-close" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="side-label">ESPACE DE TRAVAIL</div>
