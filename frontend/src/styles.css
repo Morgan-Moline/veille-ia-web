@@ -667,3 +667,67 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @media(prefers-reduced-motion:reduce){
   .theme-card::after,.nav-item:has(.nav-dot)::after{animation:none!important}
 }
+
+
+/* Reflet lumineux renforcé : cartes de thèmes et navigation latérale complète */
+.theme-card,
+.sidebar .nav-item{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+}
+.theme-card > *,
+.sidebar .nav-item > *{
+  position:relative;
+  z-index:1;
+}
+.theme-card::after,
+.sidebar .nav-item::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  top:-45%;
+  bottom:-45%;
+  left:-85%;
+  width:42%;
+  opacity:0;
+  pointer-events:none;
+  transform:skewX(-22deg);
+  background:linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in srgb,var(--accent-tertiary,#ffffff) 30%,transparent) 35%,
+    rgba(255,255,255,.92) 50%,
+    color-mix(in srgb,var(--accent-secondary,#ffffff) 45%,transparent) 65%,
+    transparent 100%);
+  filter:blur(.0px);
+  animation:veille-category-glint 3.8s ease-in-out infinite;
+}
+.theme-card:nth-child(2)::after{animation-delay:.35s}
+.theme-card:nth-child(3)::after{animation-delay:.7s}
+.theme-card:nth-child(4)::after{animation-delay:1.05s}
+.sidebar .nav-item:nth-of-type(1)::after{animation-delay:.15s}
+.sidebar .nav-item:nth-of-type(2)::after{animation-delay:.45s}
+.sidebar .nav-item:nth-of-type(3)::after{animation-delay:.75s}
+.sidebar .nav-item:nth-of-type(4)::after{animation-delay:1.05s}
+.sidebar .nav-item:nth-of-type(5)::after{animation-delay:1.35s}
+.theme-card:hover::after,
+.sidebar .nav-item:hover::after{
+  animation-duration:1.05s;
+  opacity:1;
+}
+.theme-card.selected::after,
+.sidebar .nav-item.active::after{
+  opacity:.85;
+}
+@keyframes veille-category-glint{
+  0%,12%{left:-85%;opacity:0}
+  20%{opacity:.9}
+  48%{left:145%;opacity:.7}
+  58%,100%{left:145%;opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .theme-card::after,
+  .sidebar .nav-item::after{animation:none!important}
+  .theme-card:hover::after,
+  .sidebar .nav-item:hover::after{opacity:.85}
+}
