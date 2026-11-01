@@ -1339,3 +1339,45 @@ body{background:#111027!important}
     animation-name:glint-background-sweep!important;animation-duration:4.2s!important;animation-iteration-count:infinite!important;
   }
 }
+
+
+/* HOVER GLINT — le reflet se déclenche uniquement au passage de la souris */
+.top-actions .top-btn,
+.top-actions .primary-btn,
+.filter-tabs button {
+  position: relative !important;
+  overflow: hidden !important;
+}
+.top-actions .top-btn .button-glint,
+.top-actions .primary-btn .button-glint,
+.filter-tabs button .button-glint {
+  position: absolute !important;
+  top: -65% !important;
+  bottom: -65% !important;
+  left: -42% !important;
+  width: 28% !important;
+  height: auto !important;
+  z-index: 6 !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  pointer-events: none !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12) 18%, rgba(255,255,255,.98) 50%, rgba(255,255,255,.16) 82%, transparent) !important;
+  opacity: 0 !important;
+  transform: skewX(-22deg) translateX(0) !important;
+  animation: none !important;
+  transition: transform .72s cubic-bezier(.2,.7,.2,1), opacity .12s ease !important;
+}
+.top-actions .top-btn:hover .button-glint,
+.top-actions .primary-btn:hover .button-glint,
+.filter-tabs button:hover .button-glint {
+  opacity: 1 !important;
+  transform: skewX(-22deg) translateX(520%) !important;
+}
+.top-actions .top-btn:disabled .button-glint {
+  opacity: 0 !important;
+  animation: none !important;
+  transition: none !important;
+}
