@@ -797,3 +797,46 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @media(prefers-reduced-motion:reduce){
   .sidebar,.topbar,.hero,.theme-card,.article-card,.primary-btn{backdrop-filter:none}
 }
+
+
+/* Le scintillement doit se déclencher uniquement au survol */
+.theme-card::after,
+.sidebar .nav-item::after,
+.primary-btn::after,
+.top-btn::after,
+.secondary-btn::after{
+  animation:none!important;
+  opacity:0!important;
+}
+.theme-card.selected::after,
+.sidebar .nav-item.active::after{opacity:0!important}
+
+.theme-card:hover::after,
+.sidebar .nav-item:hover::after{
+  animation:veille-category-glint .95s ease-out 1!important;
+  opacity:1!important;
+}
+.primary-btn:hover::after{
+  animation:primary-button-shimmer .9s ease-out 1!important;
+  opacity:1!important;
+}
+.top-btn:hover::after,
+.secondary-btn:hover::after{
+  animation:primary-button-shimmer .9s ease-out 1!important;
+  opacity:1!important;
+}
+.theme-card:focus-visible::after,
+.sidebar .nav-item:focus-visible::after,
+.primary-btn:focus-visible::after,
+.top-btn:focus-visible::after,
+.secondary-btn:focus-visible::after{
+  animation:veille-category-glint .95s ease-out 1!important;
+  opacity:1!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .theme-card:hover::after,
+  .sidebar .nav-item:hover::after,
+  .primary-btn:hover::after,
+  .top-btn:hover::after,
+  .secondary-btn:hover::after{animation:none!important}
+}
