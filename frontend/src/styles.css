@@ -731,3 +731,69 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   .theme-card:hover::after,
   .sidebar .nav-item:hover::after{opacity:.85}
 }
+
+
+/* UNIVERS CHROME : la vue globale devient argent / platine, distincte du bleu BTS */
+.theme-card.theme-all{
+  --theme-accent:#aeb8c8;
+  border-color:#64748b!important;
+}
+.theme-card.theme-all .theme-icon{
+  color:#f4f7ff!important;
+  background:linear-gradient(145deg,#eef3fa 0%,#8795a9 24%,#dce5f0 42%,#566579 68%,#c7d2e1 100%)!important;
+  box-shadow:inset 0 1px 2px #ffffffd9,inset 0 -2px 4px #17223599,0 0 18px #cbd5e133!important;
+}
+.theme-card.theme-all.selected{
+  border-color:#e2e8f0!important;
+  box-shadow:0 0 0 1px #e2e8f080,0 0 28px #cbd5e155,inset 0 1px 0 #ffffff70!important;
+}
+
+/* Finition glossy / chrome : reflets froids et chauds selon l'univers actif */
+.sidebar,.topbar,.sidebar-note,.hero,
+.stats-row .stat-card,.theme-card,.article-card,.empty-state,
+.search-box,.filter-tabs button,.sort-btn,.top-btn,.secondary-btn,
+.primary-btn,.quiz-card,.quiz-modal,.modal-card,.summary-box{
+  background-image:
+    linear-gradient(112deg,rgba(255,255,255,.17) 0%,rgba(255,255,255,.035) 16%,transparent 31%,color-mix(in srgb,var(--accent-secondary) 10%,transparent) 58%,rgba(255,255,255,.075) 78%,transparent 100%),
+    linear-gradient(155deg,color-mix(in srgb,var(--theme-panel) 94%,white 6%),color-mix(in srgb,var(--theme-bg) 88%,#050812 12%))!important;
+  border-top-color:color-mix(in srgb,#ffffff 42%,var(--theme-line))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.32),
+    inset 0 -1px 0 rgba(0,0,0,.38),
+    0 10px 28px rgba(0,0,0,.24),
+    0 0 18px color-mix(in srgb,var(--accent) 9%,transparent)!important;
+}
+.hero{
+  background-image:
+    linear-gradient(105deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.035) 20%,transparent 42%,color-mix(in srgb,var(--accent-secondary) 18%,transparent) 72%,rgba(255,255,255,.09) 100%),
+    linear-gradient(120deg,var(--theme-bg),var(--theme-bg-glow),var(--accent))!important;
+}
+.theme-card,.article-card,.stats-row .stat-card,.sidebar-note,.search-box,
+.filter-tabs button,.top-btn,.secondary-btn,.primary-btn{
+  border:1px solid color-mix(in srgb,var(--accent-tertiary) 38%,var(--theme-line))!important;
+  backdrop-filter:blur(14px) saturate(145%);
+}
+.theme-card:hover,.article-card:hover,.top-btn:hover,.secondary-btn:hover,.primary-btn:hover{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.52),inset 0 -1px 0 rgba(0,0,0,.35),0 16px 38px rgba(0,0,0,.32),0 0 26px color-mix(in srgb,var(--accent-secondary) 22%,transparent)!important;
+}
+.theme-icon,.stat-icon,.note-icon,.brand-mark{
+  background-image:linear-gradient(145deg,rgba(255,255,255,.34),transparent 42%,rgba(0,0,0,.18))!important;
+  border:1px solid color-mix(in srgb,var(--accent-tertiary) 42%,transparent);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.48),inset 0 -2px 4px rgba(0,0,0,.25),0 4px 14px rgba(0,0,0,.2);
+}
+.primary-btn{
+  background-image:linear-gradient(110deg,rgba(255,255,255,.4),rgba(255,255,255,.04) 34%,transparent 58%,rgba(255,255,255,.24)),linear-gradient(115deg,var(--accent),var(--accent-secondary),var(--accent-tertiary))!important;
+  border-color:rgba(255,255,255,.58)!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.24);
+}
+.sidebar .nav-item{
+  background-image:linear-gradient(110deg,rgba(255,255,255,.095),transparent 38%,rgba(255,255,255,.035))!important;
+  border-top:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.24);
+}
+.sidebar .nav-item.active{
+  background-image:linear-gradient(110deg,rgba(255,255,255,.2),transparent 45%,color-mix(in srgb,var(--accent-secondary) 16%,transparent)),linear-gradient(100deg,color-mix(in srgb,var(--accent) 25%,var(--theme-panel)),color-mix(in srgb,var(--accent-secondary) 12%,var(--theme-panel)))!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .sidebar,.topbar,.hero,.theme-card,.article-card,.primary-btn{backdrop-filter:none}
+}
