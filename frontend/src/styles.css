@@ -1067,3 +1067,77 @@ body{
   background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 22%,var(--theme-panel)),var(--theme-panel))!important;
   border-color:color-mix(in srgb,var(--accent) 52%,var(--theme-line))!important;
 }
+
+
+/* PALETTES SIGNATURE — quatre teintes coordonnées par univers */
+.app-shell{
+  --accent-quaternary:var(--accent-tertiary);
+  background-image:
+    radial-gradient(ellipse at 12% 12%,color-mix(in srgb,var(--accent) 25%,transparent),transparent 42%),
+    radial-gradient(ellipse at 88% 16%,color-mix(in srgb,var(--accent-secondary) 20%,transparent),transparent 39%),
+    radial-gradient(ellipse at 72% 88%,color-mix(in srgb,var(--accent-quaternary) 15%,transparent),transparent 43%),
+    radial-gradient(ellipse at 18% 82%,color-mix(in srgb,var(--accent-tertiary) 11%,transparent),transparent 40%),
+    linear-gradient(132deg,color-mix(in srgb,var(--theme-bg) 84%,white 16%),var(--theme-bg) 45%,color-mix(in srgb,var(--theme-bg) 82%,black 18%))!important;
+}
+.theme-card{
+  border-color:color-mix(in srgb,var(--theme-accent,var(--accent)) 42%,var(--accent-tertiary))!important;
+  background-image:
+    linear-gradient(115deg,color-mix(in srgb,var(--theme-accent,var(--accent)) 18%,var(--theme-panel)),color-mix(in srgb,var(--accent-secondary) 9%,var(--theme-panel)) 58%,var(--theme-panel))!important;
+}
+.theme-card .theme-icon{
+  background:linear-gradient(135deg,var(--theme-accent,var(--accent)),var(--accent-secondary))!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 2px #ffffffa0,inset 0 -3px 5px #0005,0 4px 12px color-mix(in srgb,var(--theme-accent,var(--accent)) 35%,transparent)!important;
+}
+.theme-card.selected{
+  border-color:var(--theme-accent,var(--accent))!important;
+  box-shadow:inset 0 1px 0 #ffffff50,0 0 0 1px var(--theme-accent,var(--accent)),0 0 22px color-mix(in srgb,var(--theme-accent,var(--accent)) 25%,transparent),0 8px 18px #0005!important;
+}
+
+/* SCINTILLEMENT RETROUVÉ : actions du haut + filtres Tous / Non lus / Favoris / Lus */
+.top-actions .top-btn,.top-actions .primary-btn,.filter-tabs button{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+}
+.top-actions .top-btn::after,.top-actions .primary-btn::after,
+.filter-tabs button::after{
+  content:""!important;
+  position:absolute!important;
+  z-index:3!important;
+  top:-65%!important;
+  bottom:-65%!important;
+  left:-75%!important;
+  width:32%!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:skewX(-22deg)!important;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08) 15%,rgba(255,255,255,.92) 50%,rgba(255,255,255,.12) 85%,transparent)!important;
+  filter:blur(.35px);
+}
+.top-actions .top-btn::after,.top-actions .primary-btn::after{
+  animation:action-neon-glint 4.2s ease-in-out infinite!important;
+  opacity:1!important;
+}
+.filter-tabs button::after{
+  animation:action-neon-glint 5.1s ease-in-out infinite!important;
+  opacity:.82!important;
+}
+.top-actions .top-btn:hover::after,.top-actions .primary-btn:hover::after,
+.filter-tabs button:hover::after{
+  animation-duration:1.05s!important;
+  opacity:1!important;
+}
+.top-actions .top-btn:disabled::after{animation:none!important;opacity:0!important}
+.filter-tabs button.tab-active::after{
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent-secondary) 35%,white),#fff,transparent)!important;
+}
+@keyframes action-neon-glint{
+  0%,12%{left:-75%;opacity:0}
+  22%{opacity:.95}
+  42%{left:145%;opacity:.75}
+  55%,100%{left:145%;opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .top-actions .top-btn::after,.top-actions .primary-btn::after,.filter-tabs button::after{animation:none!important;opacity:0!important}
+}
