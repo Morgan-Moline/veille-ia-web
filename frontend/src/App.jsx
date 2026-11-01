@@ -9,9 +9,9 @@ import {
 } from 'lucide-react';
 
 const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#B84DFF', secondary: '#FF3DCE', tertiary: '#F4B7FF', quaternary: '#FF795E', bg: '#1B0B2E', bgGlow: '#632080', panel: '#241238', line: '#783DA0', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
-  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#397BFF', secondary: '#00E5FF', tertiary: '#B8F5FF', quaternary: '#786BFF', bg: '#07172F', bgGlow: '#145C91', panel: '#102746', line: '#286DAB', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#FF315A', secondary: '#FF8A24', tertiary: '#FFD166', quaternary: '#D7E0EC', bg: '#260D17', bgGlow: '#713018', panel: '#301923', line: '#87384A', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#00D6A3', secondary: '#00B8D9', tertiary: '#C7FFF0', quaternary: '#B8F05A', bg: '#071F20', bgGlow: '#0A645B', panel: '#102D2C', line: '#247A70', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#5B7CFA', secondary: '#36D6FF', tertiary: '#D9F5FF', quaternary: '#B9A7FF', bg: '#0B1533', bgGlow: '#273F8F', panel: '#14234A', line: '#405DAB', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#FF9D2E', secondary: '#F45B35', tertiary: '#FFE3C2', quaternary: '#FFD166', bg: '#26150B', bgGlow: '#773C16', panel: '#332014', line: '#92552A', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
@@ -89,7 +89,7 @@ export default function App() {
   }, [articles, selectedCategory, selectedFilter, favorites, read, search, sortNewest]);
 
   const currentCategory = categories.find(c => c.name === selectedCategory);
-  const accent = currentCategory?.accent || '#aeb8c8';
+  const accent = currentCategory?.accent || '#B9C7E8';
   const unreadCount = articles.filter(a => !read.includes(a.link)).length;
   const toggle = (value, setter, link) => setter(old => old.includes(link) ? old.filter(x => x !== link) : [...old, link]);
   const openArticle = (article) => {
@@ -168,7 +168,7 @@ export default function App() {
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
-  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#6C8CFF', '--accent-tertiary': currentCategory?.tertiary || '#DCE8F5', '--accent-quaternary': currentCategory?.quaternary || '#A78BFA', '--theme-bg': currentCategory?.bg || '#171c27', '--theme-bg-glow': currentCategory?.bgGlow || '#344258', '--theme-panel': currentCategory?.panel || '#202938', '--theme-line': currentCategory?.line || '#58677b' }}>
+  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#58E1D9', '--accent-tertiary': currentCategory?.tertiary || '#F2F5FF', '--accent-quaternary': currentCategory?.quaternary || '#8799FF', '--theme-bg': currentCategory?.bg || '#111A2B', '--theme-bg-glow': currentCategory?.bgGlow || '#2E557A', '--theme-panel': currentCategory?.panel || '#1B2A40', '--theme-line': currentCategory?.line || '#526C8A' }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand"><div className="brand-mark"><Sparkles size={20}/></div><div><strong>Veille<span>IA</span></strong><small>Votre veille, au bon endroit</small></div><button className="icon-btn mobile-close" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="side-label">ESPACE DE TRAVAIL</div>
