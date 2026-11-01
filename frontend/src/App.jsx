@@ -9,9 +9,9 @@ import {
 } from 'lucide-react';
 
 const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#16C79A', secondary: '#3B82F6', tertiary: '#D8FFF2', quaternary: '#F4C95D', bg: '#092B2A', bgGlow: '#12665A', panel: '#123B3A', line: '#287C70', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#438DBB', secondary: '#79BDE5', tertiary: '#D5EAF7', quaternary: '#A9C7D8', bg: '#101F30', bgGlow: '#1E4564', panel: '#172D43', line: '#31536F', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
   { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#8B5CF6', secondary: '#EC4899', tertiary: '#F5D0FE', quaternary: '#38BDF8', bg: '#211333', bgGlow: '#6B2F83', panel: '#302044', line: '#754A91', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#F97316', secondary: '#84CC16', tertiary: '#FFD7A8', quaternary: '#EAB308', bg: '#2B1B0B', bgGlow: '#87451A', panel: '#3B2815', line: '#A66A27', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#D71936', secondary: '#F05260', tertiary: '#FFD1D6', quaternary: '#B9C0C9', bg: '#260E14', bgGlow: '#641D29', panel: '#35151D', line: '#78313D', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
