@@ -10,8 +10,8 @@ import {
 
 const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';const categories = [
   { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#438DBB', secondary: '#79BDE5', tertiary: '#D5EAF7', quaternary: '#A9C7D8', bg: '#101F30', bgGlow: '#1E4564', panel: '#172D43', line: '#31536F', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
-  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#8B5CF6', secondary: '#EC4899', tertiary: '#F5D0FE', quaternary: '#38BDF8', bg: '#211333', bgGlow: '#6B2F83', panel: '#302044', line: '#754A91', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#D71936', secondary: '#F05260', tertiary: '#FFD1D6', quaternary: '#B9C0C9', bg: '#260E14', bgGlow: '#641D29', panel: '#35151D', line: '#78313D', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#18A6A0', secondary: '#62D6CE', tertiary: '#C9F5EF', quaternary: '#8FC9D2', bg: '#102729', bgGlow: '#1C5556', panel: '#18383B', line: '#32696B', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#C62828', secondary: '#AEB8C3', tertiary: '#E7EBEF', quaternary: '#778492', bg: '#191E24', bgGlow: '#343D48', panel: '#252D36', line: '#4B5968', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
