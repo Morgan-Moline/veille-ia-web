@@ -10,7 +10,7 @@ import {
 
 const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';
 const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#2468b4', secondary: '#f28c28', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#9b5cff', secondary: '#ff4fd8', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
   { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#174a91', secondary: '#55a6e8', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
   { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#c62828', secondary: '#ef5350', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
