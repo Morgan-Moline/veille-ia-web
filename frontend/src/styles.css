@@ -1381,3 +1381,40 @@ body{background:#111027!important}
   animation: none !important;
   transition: none !important;
 }
+
+
+/* PALETTES MÉTIER — comptabilité bleu acier / secteur pro rouge CASE IH */
+.app-shell{
+  background-image:
+    radial-gradient(ellipse at 8% 8%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 40%),
+    radial-gradient(ellipse at 92% 18%,color-mix(in srgb,var(--accent-secondary) 13%,transparent),transparent 38%),
+    radial-gradient(ellipse at 72% 92%,color-mix(in srgb,var(--accent-tertiary) 8%,transparent),transparent 42%),
+    linear-gradient(135deg,color-mix(in srgb,var(--theme-bg) 92%,white 8%),var(--theme-bg) 48%,color-mix(in srgb,var(--theme-bg) 86%,black 14%))!important;
+}
+.sidebar,.topbar,.sidebar-note,.stats-row .stat-card,.article-card,.empty-state,
+.search-box,.quiz-card,.quiz-modal,.modal-card,.summary-box{
+  border-color:color-mix(in srgb,var(--theme-line) 78%,var(--accent) 22%)!important;
+}
+.theme-card,.sidebar .nav-item,.top-btn,.secondary-btn,.filter-tabs button,.sort-btn{
+  border-color:color-mix(in srgb,var(--theme-line) 72%,var(--accent) 28%)!important;
+}
+.theme-card .theme-icon,.stat-icon,.note-icon{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 82%,white 18%),var(--accent))!important;
+  color:#fff!important;
+}
+.theme-card.selected,.filter-tabs button.tab-active,.sidebar .nav-item.active{
+  border-color:var(--accent-secondary)!important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 34%,transparent),0 0 20px color-mix(in srgb,var(--accent) 18%,transparent)!important;
+}
+.primary-btn{
+  background:linear-gradient(112deg,var(--accent),var(--accent-secondary))!important;
+  border-color:color-mix(in srgb,var(--accent-tertiary) 62%,white 38%)!important;
+}
+.hero{
+  border-color:color-mix(in srgb,var(--accent) 42%,var(--theme-line))!important;
+}
+.hero h1 em,.hero .kicker-line{color:var(--accent-tertiary)!important}
+.hero .kicker-line{background:var(--accent-secondary)!important}
+.theme-card:hover,.article-card:hover,.top-btn:hover,.secondary-btn:hover,.primary-btn:hover{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 14px 32px rgba(0,0,0,.3),0 0 20px color-mix(in srgb,var(--accent) 18%,transparent)!important;
+}
