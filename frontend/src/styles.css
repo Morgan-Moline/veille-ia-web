@@ -1141,3 +1141,75 @@ body{
 @media(prefers-reduced-motion:reduce){
   .top-actions .top-btn::after,.top-actions .primary-btn::after,.filter-tabs button::after{animation:none!important;opacity:0!important}
 }
+
+
+/* NOUVELLE SIGNATURE COULEUR — émeraude, glacier et ambre */
+.app-shell{
+  background-image:
+    radial-gradient(ellipse at 10% 10%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 43%),
+    radial-gradient(ellipse at 88% 14%,color-mix(in srgb,var(--accent-secondary) 20%,transparent),transparent 40%),
+    radial-gradient(ellipse at 72% 90%,color-mix(in srgb,var(--accent-quaternary) 17%,transparent),transparent 44%),
+    radial-gradient(ellipse at 15% 84%,color-mix(in srgb,var(--accent-tertiary) 10%,transparent),transparent 40%),
+    linear-gradient(135deg,color-mix(in srgb,var(--theme-bg) 78%,white 22%),var(--theme-bg) 43%,color-mix(in srgb,var(--theme-bg) 78%,black 22%))!important;
+}
+.theme-card{
+  background-image:linear-gradient(118deg,color-mix(in srgb,var(--theme-accent,var(--accent)) 21%,var(--theme-panel)),color-mix(in srgb,var(--accent-secondary) 12%,var(--theme-panel)) 58%,var(--theme-panel))!important;
+}
+.theme-card .theme-icon{
+  background:linear-gradient(135deg,var(--theme-accent,var(--accent)),var(--accent-secondary),var(--accent-quaternary))!important;
+  color:#fff!important;
+}
+
+/* Balayage lumineux dédié : pseudo-élément ::before pour éviter les anciens effets ::after */
+.top-actions .top-btn,.top-actions .primary-btn,.filter-tabs button,.sidebar .nav-item{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+.top-actions .top-btn::before,.top-actions .primary-btn::before,
+.filter-tabs button::before,.sidebar .nav-item::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:0!important;
+  top:-70%!important;
+  bottom:-70%!important;
+  left:-58%!important;
+  width:34%!important;
+  border:0!important;
+  border-radius:inherit!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:skewX(-24deg)!important;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.10) 18%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.16) 82%,transparent 100%)!important;
+  box-shadow:0 0 16px color-mix(in srgb,var(--accent-tertiary) 42%,transparent)!important;
+  animation:veille-real-glint 4.6s cubic-bezier(.42,0,.25,1) infinite!important;
+  animation-play-state:running!important;
+}
+.top-actions .top-btn::before{animation-duration:4.1s!important}
+.top-actions .primary-btn::before{animation-duration:3.6s!important}
+.filter-tabs button::before{animation-duration:4.8s!important}
+.sidebar .nav-item::before{animation-duration:5.3s!important}
+.top-actions .top-btn:disabled::before{animation:none!important;opacity:0!important}
+.top-actions .top-btn:hover::before,.top-actions .primary-btn:hover::before,
+.filter-tabs button:hover::before,.sidebar .nav-item:hover::before{
+  animation-duration:1.15s!important;
+  opacity:1!important;
+}
+@keyframes veille-real-glint{
+  0%,9%{left:-58%;opacity:0}
+  17%{opacity:.92}
+  38%{left:132%;opacity:.78}
+  48%,100%{left:132%;opacity:0}
+}
+/* L'effet demandé reste actif même si Windows signale une préférence de réduction des animations */
+@media(prefers-reduced-motion:reduce){
+  .top-actions .top-btn::before,.top-actions .primary-btn::before,
+  .filter-tabs button::before,.sidebar .nav-item::before{
+    animation-name:veille-real-glint!important;
+    animation-duration:4.6s!important;
+    animation-iteration-count:infinite!important;
+    animation-play-state:running!important;
+  }
+  .top-actions .top-btn:disabled::before{animation:none!important}
+}
