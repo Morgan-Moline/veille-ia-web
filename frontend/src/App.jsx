@@ -10,9 +10,9 @@ import {
 
 const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';
 const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#9b5cff', secondary: '#ff4fd8', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
-  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#174a91', secondary: '#55a6e8', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#c62828', secondary: '#ef5350', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#9b5cff', secondary: '#ff4fd8', tertiary: '#c7d0df', bg: '#241238', bgGlow: '#521d61', panel: '#191329', line: '#58366f', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#287bff', secondary: '#39d9ff', tertiary: '#b9e8ff', bg: '#0b1d38', bgGlow: '#123e68', panel: '#10233c', line: '#28517a', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#e32645', secondary: '#ff8a24', tertiary: '#aab2c0', bg: '#28131b', bgGlow: '#512617', panel: '#211923', line: '#60313a', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
@@ -90,7 +90,7 @@ export default function App() {
   }, [articles, selectedCategory, selectedFilter, favorites, read, search, sortNewest]);
 
   const currentCategory = categories.find(c => c.name === selectedCategory);
-  const accent = currentCategory?.accent || '#176b5b';
+  const accent = currentCategory?.accent || '#287bff';
   const unreadCount = articles.filter(a => !read.includes(a.link)).length;
   const toggle = (value, setter, link) => setter(old => old.includes(link) ? old.filter(x => x !== link) : [...old, link]);
   const openArticle = (article) => {
@@ -169,7 +169,7 @@ export default function App() {
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
-  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#f28c28' }}>
+  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#39d9ff', '--accent-tertiary': currentCategory?.tertiary || '#b9e8ff', '--theme-bg': currentCategory?.bg || '#0b1d38', '--theme-bg-glow': currentCategory?.bgGlow || '#123e68', '--theme-panel': currentCategory?.panel || '#10233c', '--theme-line': currentCategory?.line || '#28517a' }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand"><div className="brand-mark"><Sparkles size={20}/></div><div><strong>Veille<span>IA</span></strong><small>Votre veille, au bon endroit</small></div><button className="icon-btn mobile-close" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="side-label">ESPACE DE TRAVAIL</div>
