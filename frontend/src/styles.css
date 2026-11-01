@@ -606,3 +606,23 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
     background:linear-gradient(180deg,color-mix(in srgb,var(--theme-bg) 46%,transparent) 0%,color-mix(in srgb,var(--theme-bg) 88%,transparent) 43%,var(--theme-bg) 100%)!important;
   }
 }
+
+
+/* Scintillement premium également présent sur les actions principales */
+.primary-btn::after{
+  animation:primary-button-shimmer 3.6s ease-in-out infinite;
+  opacity:.72;
+}
+@keyframes primary-button-shimmer{
+  0%,18%{transform:rotate(22deg) translateX(-260%);opacity:0}
+  30%{opacity:.78}
+  52%,100%{transform:rotate(22deg) translateX(720%);opacity:0}
+}
+.primary-btn:hover::after{
+  animation-duration:1.15s;
+  opacity:1;
+}
+.primary-btn:disabled::after{animation:none;opacity:0}
+@media(prefers-reduced-motion:reduce){
+  .primary-btn::after{animation:none!important}
+}
