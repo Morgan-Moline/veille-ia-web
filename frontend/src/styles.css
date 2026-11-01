@@ -1279,7 +1279,7 @@ body{background:#111027!important}
   border:0!important;
   border-radius:0!important;
   pointer-events:none!important;
-  opacity:0!important;
+  opacity:0;
   transform:skewX(-23deg)!important;
   background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 22%,rgba(255,255,255,.98) 50%,rgba(255,255,255,.2) 78%,transparent 100%)!important;
   filter:blur(.25px) drop-shadow(0 0 7px rgba(255,255,255,.7));
@@ -1307,7 +1307,6 @@ body{background:#111027!important}
     animation-name:dom-button-glint!important;
     animation-duration:4.5s!important;
     animation-iteration-count:infinite!important;
-    opacity:0!important;
   }
   .top-actions .top-btn:disabled .button-glint{animation:none!important}
 }
