@@ -90,7 +90,7 @@ export default function App() {
   }, [articles, selectedCategory, selectedFilter, favorites, read, search, sortNewest]);
 
   const currentCategory = categories.find(c => c.name === selectedCategory);
-  const accent = currentCategory?.accent || '#287bff';
+  const accent = currentCategory?.accent || '#aeb8c8';
   const unreadCount = articles.filter(a => !read.includes(a.link)).length;
   const toggle = (value, setter, link) => setter(old => old.includes(link) ? old.filter(x => x !== link) : [...old, link]);
   const openArticle = (article) => {
@@ -169,7 +169,7 @@ export default function App() {
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
   };
 
-  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#39d9ff', '--accent-tertiary': currentCategory?.tertiary || '#b9e8ff', '--theme-bg': currentCategory?.bg || '#0b1d38', '--theme-bg-glow': currentCategory?.bgGlow || '#123e68', '--theme-panel': currentCategory?.panel || '#10233c', '--theme-line': currentCategory?.line || '#28517a' }}>
+  return <div className="app-shell" style={{ '--accent': accent, '--accent-secondary': currentCategory?.secondary || '#f4f7ff', '--accent-tertiary': currentCategory?.tertiary || '#7c8ba3', '--theme-bg': currentCategory?.bg || '#171c27', '--theme-bg-glow': currentCategory?.bgGlow || '#344258', '--theme-panel': currentCategory?.panel || '#202938', '--theme-line': currentCategory?.line || '#58677b' }}>
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand"><div className="brand-mark"><Sparkles size={20}/></div><div><strong>Veille<span>IA</span></strong><small>Votre veille, au bon endroit</small></div><button className="icon-btn mobile-close" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="side-label">ESPACE DE TRAVAIL</div>
