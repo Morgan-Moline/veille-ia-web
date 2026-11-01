@@ -1213,3 +1213,101 @@ body{
   }
   .top-actions .top-btn:disabled::before{animation:none!important}
 }
+
+
+/* VEILLE IA — nouvelle direction artistique inspirée du branding et des micro-interactions */
+.app-shell{
+  --accent:#8B5CF6;
+  --accent-secondary:#22D3EE;
+  --accent-tertiary:#FB7185;
+  --accent-quaternary:#FBBF24;
+  --theme-bg:#17142E;
+  --theme-bg-glow:#493078;
+  --theme-panel:#242044;
+  --theme-line:#65558F;
+  background-color:var(--theme-bg)!important;
+  background-image:
+    radial-gradient(ellipse at 8% 8%,color-mix(in srgb,var(--accent) 28%,transparent),transparent 38%),
+    radial-gradient(ellipse at 92% 18%,color-mix(in srgb,var(--accent-secondary) 20%,transparent),transparent 35%),
+    radial-gradient(ellipse at 75% 92%,color-mix(in srgb,var(--accent-tertiary) 16%,transparent),transparent 40%),
+    radial-gradient(ellipse at 15% 78%,color-mix(in srgb,var(--accent-quaternary) 12%,transparent),transparent 38%),
+    linear-gradient(135deg,#20183D 0%,var(--theme-bg) 48%,#101B35 100%)!important;
+}
+body{background:#111027!important}
+.sidebar,.topbar,.sidebar-note,.stats-row .stat-card,.article-card,.empty-state,.search-box,.quiz-card,.quiz-modal,.modal-card,.summary-box{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 88%,white 12%),var(--theme-bg))!important;
+  border-color:color-mix(in srgb,var(--accent) 30%,var(--theme-line))!important;
+}
+.theme-card,.sidebar .nav-item,.top-btn,.secondary-btn,.filter-tabs button,.sort-btn{
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 82%,var(--accent) 18%),var(--theme-panel))!important;
+  border-color:color-mix(in srgb,var(--accent) 42%,var(--theme-line))!important;
+}
+.primary-btn{
+  background:linear-gradient(115deg,var(--accent),var(--accent-secondary) 58%,var(--accent-tertiary))!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.75)!important;
+  box-shadow:inset 0 1px 0 #ffffff80,0 4px 0 #09071988,0 10px 24px color-mix(in srgb,var(--accent) 28%,transparent)!important;
+}
+.filter-tabs button.tab-active,.sidebar .nav-item.active,.theme-card.selected{
+  background:linear-gradient(115deg,color-mix(in srgb,var(--accent) 42%,var(--theme-panel)),color-mix(in srgb,var(--accent-secondary) 24%,var(--theme-panel)))!important;
+  border-color:var(--accent-secondary)!important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 38%,transparent),0 0 22px color-mix(in srgb,var(--accent) 25%,transparent)!important;
+}
+
+/* Reflet intégré au DOM : il ne dépend plus des anciens ::before / ::after */
+.top-actions .top-btn,.top-actions .primary-btn,.filter-tabs button{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+}
+.top-actions .top-btn > :not(.button-glint),
+.top-actions .primary-btn > :not(.button-glint),
+.filter-tabs button > :not(.button-glint){
+  position:relative;
+  z-index:1;
+}
+.button-glint{
+  position:absolute!important;
+  z-index:4!important;
+  top:-65%!important;
+  bottom:-65%!important;
+  left:-55%!important;
+  width:34%!important;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  pointer-events:none!important;
+  opacity:0!important;
+  transform:skewX(-23deg)!important;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 22%,rgba(255,255,255,.98) 50%,rgba(255,255,255,.2) 78%,transparent 100%)!important;
+  filter:blur(.25px) drop-shadow(0 0 7px rgba(255,255,255,.7));
+  animation:dom-button-glint 3.8s cubic-bezier(.4,0,.2,1) infinite!important;
+  animation-play-state:running!important;
+}
+.top-actions .top-btn:nth-of-type(2) .button-glint{animation-duration:4.3s!important}
+.top-actions .primary-btn .button-glint{animation-duration:3.2s!important}
+.filter-tabs button .button-glint{animation-duration:4.7s!important}
+.top-actions .top-btn:disabled .button-glint{animation:none!important;opacity:0!important}
+@keyframes dom-button-glint{
+  0%,10%{left:-55%;opacity:0}
+  18%{opacity:1}
+  43%{left:132%;opacity:.88}
+  52%,100%{left:132%;opacity:0}
+}
+.top-actions .top-btn:hover .button-glint,
+.top-actions .primary-btn:hover .button-glint,
+.filter-tabs button:hover .button-glint{
+  animation-duration:1.05s!important;
+  opacity:1!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .button-glint{
+    animation-name:dom-button-glint!important;
+    animation-duration:4.5s!important;
+    animation-iteration-count:infinite!important;
+    opacity:0!important;
+  }
+  .top-actions .top-btn:disabled .button-glint{animation:none!important}
+}
