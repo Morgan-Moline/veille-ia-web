@@ -626,3 +626,44 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @media(prefers-reduced-motion:reduce){
   .primary-btn::after{animation:none!important}
 }
+
+
+/* Même reflet scintillant sur les boutons de sélection des catégories */
+.theme-card,.nav-item:has(.nav-dot){
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.theme-card::after,.nav-item:has(.nav-dot)::after{
+  content:"";
+  position:absolute;
+  inset:-75% auto -75% -42%;
+  width:27%;
+  z-index:2;
+  pointer-events:none;
+  opacity:0;
+  transform:rotate(22deg) translateX(-260%);
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--theme-accent,var(--accent-secondary,#ffffff)) 20%,#ffffff 80%),transparent);
+  filter:blur(.4px);
+}
+.theme-card::after{
+  animation:category-button-shimmer 4.8s ease-in-out infinite;
+}
+.nav-item:has(.nav-dot)::after{
+  animation:category-button-shimmer 5.4s ease-in-out infinite;
+}
+.theme-card:hover::after,.nav-item:has(.nav-dot):hover::after{
+  opacity:1;
+  animation-duration:1.15s;
+}
+.theme-card.selected::after{
+  opacity:.55;
+}
+@keyframes category-button-shimmer{
+  0%,20%{transform:rotate(22deg) translateX(-260%);opacity:0}
+  32%{opacity:.72}
+  55%,100%{transform:rotate(22deg) translateX(720%);opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .theme-card::after,.nav-item:has(.nav-dot)::after{animation:none!important}
+}
