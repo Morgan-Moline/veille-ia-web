@@ -1,17 +1,29 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import questionBank from './data/questionBank.json';
+import React, { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
-  Activity, ArrowDownUp, ArrowUpRight, BookOpen, Bookmark, BookmarkCheck,
-  Calculator, Check, CheckCheck, ChevronDown, CircleHelp, Clock3, Cloud,
+  Activity, ArrowDownUp, ArrowUpRight, Bookmark, BookmarkCheck,
+  Calculator, Check, Clock3, Cloud,
   CloudCog, GraduationCap, LayoutGrid, LoaderCircle, Menu, Newspaper,
-  RefreshCw, Search, Settings2, Sparkles, Sprout, Star, Tractor, X,
-  Eye, EyeOff, Filter, ExternalLink, ChartNoAxesCombined, CalendarDays
+  RefreshCw, Search, Settings2, Sparkles, Star, Tractor, X,
+  Eye, EyeOff, ExternalLink, CalendarDays
 } from 'lucide-react';
 
-const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';const categories = [
-  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#438DBB', secondary: '#79BDE5', tertiary: '#D5EAF7', quaternary: '#A9C7D8', bg: '#101F30', bgGlow: '#1E4564', panel: '#172D43', line: '#31536F', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.png`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
-  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#D99A24', secondary: '#F2C45B', tertiary: '#FFF0C2', quaternary: '#C58B3A', bg: '#292113', bgGlow: '#665022', panel: '#39301F', line: '#79633B', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.png`, eyebrow: 'CCI CAMPUS CENTRE' },
-  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#C62828', secondary: '#AEB8C3', tertiary: '#E7EBEF', quaternary: '#778492', bg: '#191E24', bgGlow: '#343D48', panel: '#252D36', line: '#4B5968', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.png`, eyebrow: 'CLOUÉ • CASE IH' }
+// La banque de questions (~250 Ko) n'est chargée qu'à l'ouverture du mode révision.
+let questionBankPromise;
+function loadQuestionBank() {
+  questionBankPromise ??= import('./data/questionBank.json').then(m => m.default, error => { questionBankPromise = undefined; throw error; });
+  return questionBankPromise;
+}
+function shuffle(list) {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
+  return copy;
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/Morgan-Moline/veille-ia-data/main/data.json';
+const categories = [
+  { name: 'Comptabilité & fiscalité', short: 'Comptabilité', desc: 'TVA, fiscalité et actualités comptables', accent: '#438DBB', secondary: '#79BDE5', tertiary: '#D5EAF7', quaternary: '#A9C7D8', bg: '#101F30', bgGlow: '#1E4564', panel: '#172D43', line: '#31536F', icon: Calculator, image: `${import.meta.env.BASE_URL}images/comptabilite.webp`, eyebrow: 'COMPTABILITÉ • FISCALITÉ' },
+  { name: 'BTS Comptabilité-Gestion', short: 'Études', desc: 'Cours, examens et ressources BTS CG', accent: '#D99A24', secondary: '#F2C45B', tertiary: '#FFF0C2', quaternary: '#C58B3A', bg: '#292113', bgGlow: '#665022', panel: '#39301F', line: '#79633B', icon: GraduationCap, image: `${import.meta.env.BASE_URL}images/etudes.webp`, eyebrow: 'CCI CAMPUS CENTRE' },
+  { name: 'Secteur professionnel', short: 'Secteur pro', desc: 'Matériel agricole, concessionnaires et location', accent: '#C62828', secondary: '#AEB8C3', tertiary: '#E7EBEF', quaternary: '#778492', bg: '#191E24', bgGlow: '#343D48', panel: '#252D36', line: '#4B5968', icon: Tractor, image: `${import.meta.env.BASE_URL}images/secteur_pro.webp`, eyebrow: 'CLOUÉ • CASE IH' }
 ];
 const filters = [
   { id: 'Tous', label: 'Tous les articles', icon: LayoutGrid },
@@ -43,7 +55,8 @@ export default function App() {
   const [triggerMessage, setTriggerMessage] = useState('');
   const [quizOpen, setQuizOpen] = useState(false);
   const [quizSetupOpen, setQuizSetupOpen] = useState(false);
-  const [quizSelectedTopics, setQuizSelectedTopics] = useState(() => Object.keys(questionBank.topics));
+  const [questionBank, setQuestionBank] = useState(null);
+  const [quizSelectedTopics, setQuizSelectedTopics] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState(null);
   const [quizScore, setQuizScore] = useState(0);
@@ -64,9 +77,13 @@ export default function App() {
       payload.articles.forEach(raw => {
         const link = String(raw.link || '').trim();
         if (!link) return;
-        unique.set(link, { ...raw, title: cleanText(raw.title), description: cleanText(raw.description), summary: cleanText(raw.summary), link });
+        const article = { ...raw, title: cleanText(raw.title), description: cleanText(raw.description), summary: cleanText(raw.summary), link };
+        // Valeurs pré-calculées une seule fois : évite de re-parser les dates et le texte à chaque frappe.
+        article.time = new Date(raw.published_at || 0).getTime() || 0;
+        article.searchText = [article.title, article.description, article.summary, raw.source, raw.category].join(' ').toLocaleLowerCase('fr');
+        unique.set(link, article);
       });
-      const sorted = [...unique.values()].sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
+      const sorted = [...unique.values()].sort((a, b) => b.time - a.time);
       setArticles(sorted);
       setUpdatedAt(payload.updated_at || null);
       setLastRefresh(new Date());
@@ -78,22 +95,36 @@ export default function App() {
   useEffect(() => { localStorage.setItem('veille-favorites', JSON.stringify(favorites)); }, [favorites]);
   useEffect(() => { localStorage.setItem('veille-read', JSON.stringify(read)); }, [read]);
 
+  const favoriteSet = useMemo(() => new Set(favorites), [favorites]);
+  const readSet = useMemo(() => new Set(read), [read]);
+  // La recherche est filtrée en priorité basse : la saisie reste fluide même avec beaucoup d'articles.
+  const deferredSearch = useDeferredValue(search);
+
   const visible = useMemo(() => {
-    const q = search.trim().toLocaleLowerCase('fr');
-    return articles.filter(a => {
-      const categoryMatch = selectedCategory === 'Toutes' || a.category === selectedCategory;
-      const filterMatch = selectedFilter === 'Favoris' ? favorites.includes(a.link) : selectedFilter === 'Non lus' ? !read.includes(a.link) : selectedFilter === 'Lus' ? read.includes(a.link) : true;
-      const searchMatch = !q || [a.title, a.description, a.summary, a.source, a.category].join(' ').toLocaleLowerCase('fr').includes(q);
-      return categoryMatch && filterMatch && searchMatch;
-    }).sort((a, b) => sortNewest ? new Date(b.published_at || 0) - new Date(a.published_at || 0) : new Date(a.published_at || 0) - new Date(b.published_at || 0));
-  }, [articles, selectedCategory, selectedFilter, favorites, read, search, sortNewest]);
+    const q = deferredSearch.trim().toLocaleLowerCase('fr');
+    const result = articles.filter(a => {
+      if (selectedCategory !== 'Toutes' && a.category !== selectedCategory) return false;
+      if (selectedFilter === 'Favoris' && !favoriteSet.has(a.link)) return false;
+      if (selectedFilter === 'Non lus' && readSet.has(a.link)) return false;
+      if (selectedFilter === 'Lus' && !readSet.has(a.link)) return false;
+      return !q || a.searchText.includes(q);
+    });
+    // `articles` est déjà trié du plus récent au plus ancien : inutile de retrier.
+    return sortNewest ? result : result.reverse();
+  }, [articles, selectedCategory, selectedFilter, favoriteSet, readSet, deferredSearch, sortNewest]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = {};
+    for (const a of articles) counts[a.category] = (counts[a.category] || 0) + 1;
+    return counts;
+  }, [articles]);
 
   const currentCategory = categories.find(c => c.name === selectedCategory);
   const accent = currentCategory?.accent || '#8B5CF6';
-  const unreadCount = articles.filter(a => !read.includes(a.link)).length;
-  const toggle = (value, setter, link) => setter(old => old.includes(link) ? old.filter(x => x !== link) : [...old, link]);
+  const unreadCount = useMemo(() => articles.reduce((n, a) => n + (readSet.has(a.link) ? 0 : 1), 0), [articles, readSet]);
+  const toggle = (setter, link) => setter(old => old.includes(link) ? old.filter(x => x !== link) : [...old, link]);
   const openArticle = (article) => {
-    if (!read.includes(article.link)) setRead(old => [...old, article.link]);
+    if (!readSet.has(article.link)) setRead(old => old.includes(article.link) ? old : [...old, article.link]);
     window.open(article.link, '_blank', 'noopener,noreferrer');
   };
 
@@ -152,17 +183,22 @@ export default function App() {
     setQuizIndex(i => i + 1); setQuizAnswer(null);
   };
   const openQuizSetup = () => {
-    setQuizSelectedTopics(Object.keys(questionBank.topics));
     setQuizSetupOpen(true);
     setQuizOpen(true);
+    if (questionBank) { setQuizSelectedTopics(Object.keys(questionBank.topics)); return; }
+    loadQuestionBank().then(bank => {
+      setQuestionBank(bank);
+      setQuizSelectedTopics(Object.keys(bank.topics));
+    }).catch(() => setQuizOpen(false));
   };
   const startQuiz = (topics = quizSelectedTopics) => {
-    const session = Object.entries(questionBank.topics)
+    if (!questionBank) return;
+    const session = shuffle(Object.entries(questionBank.topics)
       .filter(([topic]) => topics.includes(topic))
       .map(([topic, questions]) => {
         const item = questions[Math.floor(Math.random() * questions.length)];
         return { topic, q: item.question, a: item.answers, correct: item.correctAnswer, why: item.explanation, difficulty: item.difficulty || 'intermediaire' };
-      }).sort(() => Math.random() - 0.5);
+      }));
     if (!session.length) return;
     setQuizQuestions(session); setQuizIndex(0); setQuizAnswer(null); setQuizScore(0);
     setQuizDone(false); setQuizSetupOpen(false); setQuizOpen(true);
@@ -203,14 +239,14 @@ export default function App() {
         </section>
 
         <section className="themes-section"><div className="section-heading"><div><div className="eyebrow">PERSONNALISER MON FLUX</div><h2>Mes thèmes de veille</h2><p>Choisissez un univers pour retrouver les informations qui comptent.</p></div><button className="text-action" onClick={() => {setSelectedCategory('Toutes');setSelectedFilter('Tous');}}>Tout afficher <ArrowUpRight size={16}/></button></div>
-          <div className="theme-grid"><button className={`theme-card theme-all ${selectedCategory === 'Toutes' ? 'selected' : ''}`} onClick={() => setSelectedCategory('Toutes')}><div className="theme-icon all-icon"><LayoutGrid size={20}/></div><div><strong>Tous les thèmes</strong><small>Vue globale de votre veille</small></div><span className="theme-count">{articles.length}</span></button>{categories.map(c=>{const count=articles.filter(a=>a.category===c.name).length;return <button key={c.name} className={`theme-card ${selectedCategory===c.name?'selected':''}`} onClick={()=>setSelectedCategory(c.name)} style={{'--theme-accent':c.accent}}><div className="theme-icon"><c.icon size={20}/></div><div><strong>{c.short}</strong><small>{c.desc}</small></div><span className="theme-count">{count}</span></button>})}</div>
+          <div className="theme-grid"><button className={`theme-card theme-all ${selectedCategory === 'Toutes' ? 'selected' : ''}`} onClick={() => setSelectedCategory('Toutes')}><div className="theme-icon all-icon"><LayoutGrid size={20}/></div><div><strong>Tous les thèmes</strong><small>Vue globale de votre veille</small></div><span className="theme-count">{articles.length}</span></button>{categories.map(c=>{const count=categoryCounts[c.name]||0;return <button key={c.name} className={`theme-card ${selectedCategory===c.name?'selected':''}`} onClick={()=>setSelectedCategory(c.name)} style={{'--theme-accent':c.accent}}><div className="theme-icon"><c.icon size={20}/></div><div><strong>{c.short}</strong><small>{c.desc}</small></div><span className="theme-count">{count}</span></button>})}</div>
         </section>
 
         <section className="news-section"><div className="section-heading news-heading"><div><div className="eyebrow">VOTRE SÉLECTION</div><h2>Actualités récentes</h2><p>Une sélection d’informations avec leur résumé IA pour aller à l’essentiel.</p></div><div className="news-meta"><span className="result-count">{visible.length} résultat{visible.length>1?'s':''}</span><button className="sort-btn" onClick={()=>setSortNewest(v=>!v)}><ArrowDownUp size={15}/>{sortNewest?'Plus récentes':'Plus anciennes'}</button></div></div>
           <div className="toolbar"><div className="filter-tabs">{filters.map(f=><button key={f.id} className={selectedFilter===f.id?'tab-active':''} onClick={()=>setSelectedFilter(f.id)}><f.icon size={15}/>{f.id}<span className="button-glint" aria-hidden="true"/></button>)}</div><label className="search-box"><Search size={17}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Rechercher un article, une source…"/><kbd>⌘ K</kbd>{search&&<button className="clear-search" onClick={()=>setSearch('')}><X size={14}/></button>}</label></div>
-          {loading && articles.length===0 ? <div className="empty-state"><LoaderCircle className="spin" size={30}/><strong>Récupération de votre veille…</strong><p>Les dernières actualités arrivent.</p></div> : error && articles.length===0 ? <div className="empty-state"><Cloud size={30}/><strong>Veille momentanément indisponible</strong><p>{error}</p><button className="primary-btn" onClick={()=>loadArticles()}><RefreshCw size={16}/> Réessayer</button></div> : visible.length===0 ? <div className="empty-state"><Search size={30}/><strong>Aucun article trouvé</strong><p>Essayez un autre thème ou modifiez votre recherche.</p><button className="secondary-btn" onClick={()=>{setSearch('');setSelectedFilter('Tous');setSelectedCategory('Toutes');}}>Réinitialiser les filtres</button></div> : <div className="article-grid">{visible.map((article,i)=>{const c=categoryFor(article.category);const isFavorite=favorites.includes(article.link);const isRead=read.includes(article.link);return <article key={article.link} className={`article-card ${isRead?'article-read':''}`} style={{'--card-accent':c.accent,'--card-secondary':c.secondary,'--delay':`${Math.min(i,10)*35}ms`}}><div className="article-topline"><span className="article-category"><i/>{c.short}</span><span className="article-date"><CalendarDays size={13}/>{relativeDate(article.published_at)}</span></div><button className="article-title" onClick={()=>openArticle(article)}>{article.title}</button>{article.description&&<p className="article-description">{article.description}</p>}
+          {loading && articles.length===0 ? <div className="empty-state"><LoaderCircle className="spin" size={30}/><strong>Récupération de votre veille…</strong><p>Les dernières actualités arrivent.</p></div> : error && articles.length===0 ? <div className="empty-state"><Cloud size={30}/><strong>Veille momentanément indisponible</strong><p>{error}</p><button className="primary-btn" onClick={()=>loadArticles()}><RefreshCw size={16}/> Réessayer</button></div> : visible.length===0 ? <div className="empty-state"><Search size={30}/><strong>Aucun article trouvé</strong><p>Essayez un autre thème ou modifiez votre recherche.</p><button className="secondary-btn" onClick={()=>{setSearch('');setSelectedFilter('Tous');setSelectedCategory('Toutes');}}>Réinitialiser les filtres</button></div> : <div className="article-grid">{visible.map((article,i)=>{const c=categoryFor(article.category);const isFavorite=favoriteSet.has(article.link);const isRead=readSet.has(article.link);return <article key={article.link} className={`article-card ${isRead?'article-read':''}`} style={{'--card-accent':c.accent,'--card-secondary':c.secondary,'--delay':`${Math.min(i,10)*35}ms`}}><div className="article-topline"><span className="article-category"><i/>{c.short}</span><span className="article-date"><CalendarDays size={13}/>{relativeDate(article.published_at)}</span></div><button className="article-title" onClick={()=>openArticle(article)}>{article.title}</button>{article.description&&<p className="article-description">{article.description}</p>}
               <div className="summary-box">{article.summary?<><div className="summary-heading"><span><Sparkles size={15}/> Résumé IA</span><span className="ai-tag">IA</span></div><p>{article.summary}</p></>:<div className="summary-pending"><Sparkles size={16}/><span>Résumé IA en attente. Il sera ajouté lors d’une prochaine actualisation.</span></div>}</div>
-              <div className="article-footer"><div className="source"><span className="source-mark">{(article.source||'G').slice(0,1).toUpperCase()}</span><span title={article.source}>{article.source||'Google Actualités'}</span></div><div className="article-actions"><button className={`mini-action ${isFavorite?'is-favorite':''}`} title={isFavorite?'Retirer des favoris':'Ajouter aux favoris'} onClick={()=>toggle(article.link,setFavorites,article.link)}>{isFavorite?<BookmarkCheck size={17}/>:<Bookmark size={17}/>}</button><button className={`read-action ${isRead?'read-done':''}`} onClick={()=>toggle(article.link,setRead,article.link)}>{isRead?<Check size={14}/>:<Eye size={14}/>} {isRead?'Lu':'Non lu'}</button><button className="read-link" onClick={()=>openArticle(article)}>Lire <ExternalLink size={14}/></button></div></div>
+              <div className="article-footer"><div className="source"><span className="source-mark">{(article.source||'G').slice(0,1).toUpperCase()}</span><span title={article.source}>{article.source||'Google Actualités'}</span></div><div className="article-actions"><button className={`mini-action ${isFavorite?'is-favorite':''}`} title={isFavorite?'Retirer des favoris':'Ajouter aux favoris'} onClick={()=>toggle(setFavorites,article.link)}>{isFavorite?<BookmarkCheck size={17}/>:<Bookmark size={17}/>}</button><button className={`read-action ${isRead?'read-done':''}`} onClick={()=>toggle(setRead,article.link)}>{isRead?<Check size={14}/>:<Eye size={14}/>} {isRead?'Lu':'Non lu'}</button><button className="read-link" onClick={()=>openArticle(article)}>Lire <ExternalLink size={14}/></button></div></div>
             </article>})}</div>}
           {error && articles.length>0 && <div className="inline-error">{error}</div>}
           <div className="disclaimer"><Sparkles size={15}/><span>Les résumés sont générés par Gemini lors de l’actualisation automatique de la veille. Vérifiez toujours les informations importantes auprès de la source originale.</span></div>
@@ -221,6 +257,6 @@ export default function App() {
 
     {triggerOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget&&!triggering)setTriggerOpen(false);}}><div className="modal"><button className="modal-close" onClick={()=>!triggering&&setTriggerOpen(false)}><X size={18}/></button><div className="modal-icon"><CloudCog size={23}/></div><div className="eyebrow">AUTOMATISATION</div><h2>Lancer une nouvelle veille</h2><p>Déclenchez la collecte et la génération des résumés IA. Le site attendra automatiquement la publication des nouveaux articles.</p><label className="field-label" htmlFor="app-secret">Secret d’accès</label><input id="app-secret" className="modal-input" type="password" value={secret} onChange={e=>setSecret(e.target.value)} placeholder="APP_SECRET" autoFocus disabled={triggering}/>{triggerMessage&&<div className={`trigger-message ${triggerMessage.includes('récupérée')?'success':''}`}>{triggering&&<LoaderCircle size={15} className="spin"/>}{triggerMessage}</div>}<div className="modal-actions"><button className="secondary-btn" onClick={()=>setTriggerOpen(false)} disabled={triggering}>Fermer</button><button className="primary-btn" onClick={launchNewWatch} disabled={triggering||watchInProgress||!secret.trim()}>{triggering?<LoaderCircle size={16} className="spin"/>:<CloudCog size={16}/>} {triggering?'Envoi…':watchInProgress?'Veille en arrière-plan…':'Lancer la veille'}</button></div><small className="privacy-note">Le secret est transmis au service de déclenchement et n’est pas enregistré dans le navigateur.</small></div></div>}
 
-    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div><div className="quiz-bank-meta">500 questions disponibles · 10 thèmes</div>{quizSetupOpen?<><div className="quiz-bank-meta">500 questions disponibles · Choisis les thèmes à travailler. Une question sera tirée au sort dans chaque thème sélectionné.</div><h2>Sur quels thèmes veux-tu réviser ?</h2><div className="quiz-topic-picker"><div className="quiz-topic-picker-actions"><button type="button" onClick={()=>setQuizSelectedTopics(Object.keys(questionBank.topics))}>Tout sélectionner</button><button type="button" onClick={()=>setQuizSelectedTopics([])}>Tout désélectionner</button></div>{Object.entries(questionBank.topics).map(([topic,questions])=><label className="quiz-topic-option" key={topic}><input type="checkbox" checked={quizSelectedTopics.includes(topic)} onChange={e=>setQuizSelectedTopics(current=>e.target.checked?[...current,topic]:current.filter(item=>item!==topic))}/><span><strong>{topic}</strong><small>{questions.length} questions</small></span></label>)}</div><div className="modal-actions"><span className="score-label">{quizSelectedTopics.length} thème(s) sélectionné(s)</span><button className="primary-btn" disabled={!quizSelectedTopics.length} onClick={()=>startQuiz()}>Commencer <ArrowUpRight size={15}/></button></div></>:quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={openQuizSetup}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
+    {quizOpen&&<div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setQuizOpen(false);}}><div className="modal quiz-modal"><button className="modal-close" onClick={()=>setQuizOpen(false)}><X size={18}/></button><div className="modal-icon quiz-icon"><GraduationCap size={24}/></div><div className="eyebrow">ENTRAÎNEMENT BTS CG</div>{questionBank&&<div className="quiz-bank-meta">{questionBank.total_questions} questions disponibles · {Object.keys(questionBank.topics).length} thèmes</div>}{quizSetupOpen&&!questionBank?<div className="empty-state"><LoaderCircle className="spin" size={26}/><strong>Chargement des questions…</strong></div>:quizSetupOpen?<><div className="quiz-bank-meta">Choisis les thèmes à travailler. Une question sera tirée au sort dans chaque thème sélectionné.</div><h2>Sur quels thèmes veux-tu réviser ?</h2><div className="quiz-topic-picker"><div className="quiz-topic-picker-actions"><button type="button" onClick={()=>setQuizSelectedTopics(Object.keys(questionBank.topics))}>Tout sélectionner</button><button type="button" onClick={()=>setQuizSelectedTopics([])}>Tout désélectionner</button></div>{Object.entries(questionBank.topics).map(([topic,questions])=><label className="quiz-topic-option" key={topic}><input type="checkbox" checked={quizSelectedTopics.includes(topic)} onChange={e=>setQuizSelectedTopics(current=>e.target.checked?[...current,topic]:current.filter(item=>item!==topic))}/><span><strong>{topic}</strong><small>{questions.length} questions</small></span></label>)}</div><div className="modal-actions"><span className="score-label">{quizSelectedTopics.length} thème(s) sélectionné(s)</span><button className="primary-btn" disabled={!quizSelectedTopics.length} onClick={()=>startQuiz()}>Commencer <ArrowUpRight size={15}/></button></div></>:quizDone?<><h2>Session terminée !</h2><p>Vous avez obtenu <strong>{quizScore} / {quizQuestions.length}</strong>. Continuez à vous entraîner pour consolider vos acquis.</p><div className="score-ring"><strong>{Math.round(quizScore/quizQuestions.length*100)}%</strong><span>de réussite</span></div><div className="modal-actions"><button className="secondary-btn" onClick={()=>setQuizOpen(false)}>Fermer</button><button className="primary-btn" onClick={openQuizSetup}>Recommencer</button></div></>:<><div className="quiz-progress"><span>Question {quizIndex+1} / {quizQuestions.length}</span><div><i style={{width:`${(quizIndex+1)/quizQuestions.length*100}%`}}/></div></div><span className="quiz-topic">{quizQuestions[quizIndex].topic}</span><h2>{quizQuestions[quizIndex].q}</h2><div className="quiz-answers">{quizQuestions[quizIndex].a.map((a,i)=><button key={a} disabled={quizAnswer!==null} className={`${quizAnswer===i?'chosen':''} ${quizAnswer!==null&&i===quizQuestions[quizIndex].correct?'correct':''} ${quizAnswer===i&&i!==quizQuestions[quizIndex].correct?'incorrect':''}`} onClick={()=>{setQuizAnswer(i);if(i===quizQuestions[quizIndex].correct)setQuizScore(s=>s+1);}}><span>{String.fromCharCode(65+i)}</span>{a}{quizAnswer!==null&&i===quizQuestions[quizIndex].correct&&<Check size={17}/>}</button>)}</div>{quizAnswer!==null&&<div className={`quiz-explanation ${quizAnswer===quizQuestions[quizIndex].correct?'good':''}`}><strong>{quizAnswer===quizQuestions[quizIndex].correct?'Bonne réponse !':'Pas tout à fait.'}</strong><p>{quizQuestions[quizIndex].why}</p></div>}<div className="modal-actions"><span className="score-label">Score : {quizScore}</span><button className="primary-btn" disabled={quizAnswer===null} onClick={nextQuiz}>{quizIndex===quizQuestions.length-1?'Voir le résultat':'Question suivante'} <ArrowUpRight size={15}/></button></div></>}</div></div>}
   </div>;
 }
